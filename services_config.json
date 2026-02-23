@@ -1,0 +1,483 @@
+{
+  "projects": [
+    {
+      "id": "cdr-flow",
+      "name": "CDR-Flow (Traductores Payroll)",
+      "path": "~/CDR Admin/Traductores Payroll",
+      "tag_class": "proj-cdr",
+      "tag_label": "CDR-Flow",
+      "description": "Plataforma principal: payroll, proyectos, facturación, estudio, PM inbox, bridge-agent"
+    },
+    {
+      "id": "c2b",
+      "name": "c2b-revenue-engine",
+      "path": "~/CURSOR - Apps/c2b-revenue-engine",
+      "tag_class": "proj-c2b",
+      "tag_label": "c2b",
+      "description": "Motor de ventas/marketing: lead gen, cold email, ads, AI content"
+    },
+    {
+      "id": "natalia",
+      "name": "Natalia Rosminati CM-SEO",
+      "path": "~/CURSOR - Apps/Natalia Rosminati CM-SEO",
+      "tag_class": "proj-nat",
+      "tag_label": "Natalia",
+      "description": "Content gen: WhatsApp audio → Whisper → ChatGPT → Monday + email"
+    },
+    {
+      "id": "metegol",
+      "name": "Metegol",
+      "path": "~/Metegol",
+      "tag_class": "proj-met",
+      "tag_label": "Metegol",
+      "description": "ESP32 firmware + branding pipeline AI + bridge serial→Resolume"
+    },
+    {
+      "id": "notif",
+      "name": "CDR Notificaciones",
+      "path": "~/CDR Admin/CDR notificaaciones",
+      "tag_class": "proj-notif",
+      "tag_label": "Notif",
+      "description": "Emails de pago, sync Google Sheets, webhook ManyChat"
+    },
+    {
+      "id": "payroll",
+      "name": "PAYROLL",
+      "path": "~/CDR Admin/PAYROLL",
+      "tag_class": "proj-pay",
+      "tag_label": "Payroll",
+      "description": "Pipeline payroll: Monday export (XLSX) → OSA payroll"
+    },
+    {
+      "id": "consolidado",
+      "name": "AAA_Consolidado",
+      "path": "~/CDR Admin/AAA_Consolidado",
+      "tag_class": "proj-cons",
+      "tag_label": "Consol",
+      "description": "Reportes consolidados y tipos de cambio"
+    }
+  ],
+
+  "env_patterns": [
+    "OPENAI_API_KEY",
+    "GOOGLE_API_KEY",
+    "GOOGLE_ADS_DEVELOPER_TOKEN",
+    "GOOGLE_ADS_CLIENT_ID",
+    "GOOGLE_ADS_CLIENT_SECRET",
+    "GOOGLE_ADS_REFRESH_TOKEN",
+    "GOOGLE_ADS_CUSTOMER_ID",
+    "META_ADS_ACCESS_TOKEN",
+    "META_ADS_APP_ID",
+    "META_ADS_APP_SECRET",
+    "META_ADS_ACCOUNT_ID",
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY",
+    "DATABASE_URL",
+    "REDIS_URL",
+    "APOLLO_API_KEY",
+    "SMARTLEAD_API_KEY",
+    "ZEROBOUNCE_API_KEY",
+    "LINKEDIN_AUTOMATION_API_KEY",
+    "MONDAY_API_TOKEN",
+    "MONDAY_WEBHOOK_SECRET",
+    "MONDAY_API_KEY",
+    "CF_R2_ACCESS_KEY_ID",
+    "CF_R2_SECRET_ACCESS_KEY",
+    "CF_STREAM_API_TOKEN",
+    "LUCIDLINK_API_KEY",
+    "LUCIDLINK_FILESPACE",
+    "GITHUB_BACKUP_TOKEN",
+    "WHATSAPP_API_KEY",
+    "WHATSAPP_PHONE_NUMBER_ID",
+    "GMAIL_APP_PASSWORD",
+    "SMTP_HOST",
+    "SMTP_USER",
+    "SMTP_PASS",
+    "GOOGLE_CLIENT_ID",
+    "GOOGLE_CLIENT_SECRET",
+    "GOOGLE_CREDENTIALS_FILE",
+    "GOOGLE_SERVICE_ACCOUNT_FILE",
+    "GOOGLE_DRIVE_FOLDER_ID",
+    "SHEET_ID",
+    "IDEogram_API_KEY",
+    "FAL_KEY",
+    "KLING_API_KEY",
+    "KLING_SECRET",
+    "LAYER_API_TOKEN",
+    "RUNWAY_API_KEY",
+    "STABILITY_API_KEY",
+    "ADMIN_NOTIFICATION_EMAIL", "ALLOWED_ORIGINS", "API_HOST", "API_PORT", "APP_URL",
+    "ARCHIVE_AFTER_DAYS", "AUDIO_DOWNLOAD_PATH", "BRIDGE_SECRET",
+    "CF_ACCOUNT_ID", "CF_R2_BUCKET_NAME", "CF_STREAM_CUSTOMER_SUBDOMAIN",
+    "COMPANY_ADDRESS", "COMPANY_EMAIL", "COMPANY_NAME", "COMPANY_PHONE",
+    "CORS_ORIGINS", "DATABASE_URL_SYNC", "DELETE_AFTER_ARCHIVE",
+    "EMAIL_FROM", "ENV", "FFMPEG_PATH", "FFPROBE_PATH", "FLOW_URL",
+    "FLUX_IMAGE_TO_IMAGE_STRENGTH", "FLUX_MODEL", "GEMINI_IMAGE_MODEL", "GEMINI_TEXT_MODEL",
+    "GITHUB_BACKUP_REPO", "GMAIL_ADMIN_EMAIL", "GMAIL_RECIPIENT_EMAIL", "GMAIL_SENDER_EMAIL",
+    "GMAIL_SERVICE_ACCOUNT_PATH", "GOOGLE_CALLBACK_URL", "GOOGLE_SERVICE_ACCOUNT_KEY",
+    "HOST", "JWT_SECRET", "LAYER_MODEL_NAME", "LOGIN_RATE_LIMIT_MAX", "LOG_FILE",
+    "LUCIDLINK_API_URL", "LUCIDLINK_AUTO_PERMISSIONS", "LUCIDLINK_CLIENT_PORT",
+    "LUCIDLINK_FILESPACE_ID", "LUCIDLINK_MOUNT_POINT", "LUCIDLINK_WORKER_KEY", "LUCIDLINK_WORKER_URL",
+    "MAX_CONCURRENT",
+    "MONDAY_BOARD_ACTORES", "MONDAY_BOARD_EQUIPO", "MONDAY_BOARD_ID", "MONDAY_BOARD_TRADUCTORES",
+    "MONDAY_MIRROR_ENABLED", "MONDAY_TEMPLATE_BOARD_ID", "MONDAY_TOKEN_ENCRYPTION_KEY", "MONDAY_WORKSPACE_ID",
+    "NAS_ARCHIVE_PATH", "NODE_ENV",
+    "OPENAI_MODEL", "OPENAI_MODEL_CLASSIFY", "OPENAI_MODEL_DRAFT", "OPENAI_WHISPER_MODEL",
+    "PM_INBOX_ENABLED", "PM_INBOX_POLL_INTERVAL", "PM_TRAINING_MODE", "PM_TRAINING_REDIRECT",
+    "POLL_INTERVAL_MS", "PORT", "PROXY_TEMP_DIR", "PROXY_WATCH_DIR",
+    "QC_POLL_INTERVAL", "QC_WATCH_DIRS", "R2_PUBLIC_URL",
+    "RATE_LIMIT_MAX", "RATE_LIMIT_WINDOW_MS", "RCLONE_REMOTE",
+    "SECURITY_ALERT_EMAIL", "SMTP_FROM", "SMTP_PORT", "STAGING_ROOT",
+    "TRANSCRIPTION_PATH", "UPLOADS_DIR", "UPLOAD_PORTAL_DIR",
+    "WEBAUTHN_ORIGIN", "WEBAUTHN_RP_ID", "WEBAUTHN_RP_NAME",
+    "WHATSAPP_AUTHORIZED_NUMBERS", "WHATSAPP_BUSINESS_ACCOUNT_ID", "WHATSAPP_WEBHOOK_VERIFY_TOKEN"
+  ],
+
+  "services": {
+    "OPENAI_API_KEY": {
+      "name": "OpenAI",
+      "type": "LLM + Whisper + DALL-E",
+      "category": "ai",
+      "cost_model": "usage",
+      "cost_estimate": "Variable",
+      "action": "review",
+      "action_label": "Revisar billing",
+      "notes": "Verificar si todos los proyectos usan la misma key. Revisar consumo en platform.openai.com."
+    },
+    "GOOGLE_API_KEY": {
+      "name": "Google Gemini",
+      "type": "LLM + Image gen",
+      "category": "ai",
+      "cost_model": "freemium",
+      "cost_estimate": "$0 (free tier)",
+      "action": "check",
+      "action_label": "Verificar consumo",
+      "notes": "Free: 60 req/min. Pago solo si excedés cuota."
+    },
+    "IDEogram_API_KEY": {
+      "name": "Ideogram",
+      "type": "Image generation",
+      "category": "ai",
+      "cost_model": "freemium",
+      "cost_estimate": "$0-8/mes",
+      "action": "check",
+      "action_label": "Verificar plan",
+      "notes": "Branding pipeline. Verificar si hay suscripción."
+    },
+    "FAL_KEY": {
+      "name": "Fal.ai (FLUX)",
+      "type": "Image generation",
+      "category": "ai",
+      "cost_model": "usage",
+      "cost_estimate": "Variable",
+      "action": "check",
+      "action_label": "Verificar saldo",
+      "notes": "FLUX pro image gen. Pago por uso."
+    },
+    "KLING_API_KEY": {
+      "name": "Kling AI",
+      "type": "Video generation",
+      "category": "ai",
+      "cost_model": "usage",
+      "cost_estimate": "Variable",
+      "action": "check",
+      "action_label": "Verificar saldo",
+      "notes": "Video gen para branding. Verificar créditos."
+    },
+    "LAYER_API_TOKEN": {
+      "name": "Layer.ai",
+      "type": "Custom AI models (SDXL)",
+      "category": "ai",
+      "cost_model": "usage",
+      "cost_estimate": "Variable",
+      "action": "check",
+      "action_label": "Verificar plan",
+      "notes": "Custom model SDXL via Layer.ai."
+    },
+    "RUNWAY_API_KEY": {
+      "name": "Runway",
+      "type": "Video generation",
+      "category": "ai",
+      "cost_model": "paid",
+      "cost_estimate": "$0-76/mes",
+      "action": "cancel",
+      "action_label": "Cancelar si hay sub",
+      "notes": "Key comentada/vacía. Verificar que no haya suscripción en runwayml.com."
+    },
+    "STABILITY_API_KEY": {
+      "name": "Stability AI / Stable Diffusion",
+      "type": "Image generation",
+      "category": "ai",
+      "cost_model": "ghost",
+      "cost_estimate": "US$30/mes",
+      "action": "cancel",
+      "action_label": "CANCELAR YA",
+      "notes": "COBRO FANTASMA. No se usa en ningún proyecto. Cancelar en platform.stability.ai."
+    },
+    "APOLLO_API_KEY": {
+      "name": "Apollo.io",
+      "type": "Lead generation",
+      "category": "sales",
+      "cost_model": "paid",
+      "cost_estimate": "$49-99/mes",
+      "action": "downgrade",
+      "action_label": "Bajar a free",
+      "notes": "Free: 50 emails/mes. Sin prospección activa, alcanza."
+    },
+    "SMARTLEAD_API_KEY": {
+      "name": "Smartlead",
+      "type": "Cold email automation",
+      "category": "sales",
+      "cost_model": "paid",
+      "cost_estimate": "$39-94/mes",
+      "action": "downgrade",
+      "action_label": "Pausar",
+      "notes": "Si no hay campañas de cold email activas, pausar."
+    },
+    "ZEROBOUNCE_API_KEY": {
+      "name": "ZeroBounce",
+      "type": "Email verification",
+      "category": "sales",
+      "cost_model": "freemium",
+      "cost_estimate": "$0-16/mes",
+      "action": "downgrade",
+      "action_label": "Bajar a free",
+      "notes": "Free: 100 verificaciones/mes."
+    },
+    "LINKEDIN_AUTOMATION_API_KEY": {
+      "name": "LinkedIn Automation",
+      "type": "Outreach automation",
+      "category": "sales",
+      "cost_model": "paid",
+      "cost_estimate": "$30-100/mes",
+      "action": "downgrade",
+      "action_label": "Pausar",
+      "notes": "Si no hay outreach activo, pausar."
+    },
+    "GOOGLE_ADS_DEVELOPER_TOKEN": {
+      "name": "Google Ads",
+      "type": "Advertising",
+      "category": "ads",
+      "cost_model": "usage",
+      "cost_estimate": "Variable",
+      "action": "check",
+      "action_label": "Verificar campañas",
+      "notes": "Opcional en .env. Verificar si hay campañas con gasto."
+    },
+    "META_ADS_ACCESS_TOKEN": {
+      "name": "Meta Ads",
+      "type": "Advertising",
+      "category": "ads",
+      "cost_model": "usage",
+      "cost_estimate": "Variable",
+      "action": "check",
+      "action_label": "Verificar campañas",
+      "notes": "Opcional. Verificar en Meta Business Suite."
+    },
+    "MONDAY_API_TOKEN": {
+      "name": "Monday.com",
+      "type": "PM + Boards + Webhooks",
+      "category": "pm",
+      "cost_model": "paid",
+      "cost_estimate": "$9-19/seat/mes",
+      "action": "review",
+      "action_label": "Revisar seats",
+      "notes": "Core para workflow. Revisar cuántos seats pagás."
+    },
+    "SUPABASE_URL": {
+      "name": "Supabase",
+      "type": "DB + Auth",
+      "category": "cloud",
+      "cost_model": "freemium",
+      "cost_estimate": "$0-25/mes",
+      "action": "check",
+      "action_label": "Verificar plan",
+      "notes": "Free: 500MB DB, 1GB storage."
+    },
+    "CF_R2_ACCESS_KEY_ID": {
+      "name": "Cloudflare R2",
+      "type": "Object storage (S3)",
+      "category": "cloud",
+      "cost_model": "freemium",
+      "cost_estimate": "$0 si <10GB",
+      "action": "review",
+      "action_label": "Revisar storage",
+      "notes": "Free: 10GB + 10M req/mes."
+    },
+    "CF_STREAM_API_TOKEN": {
+      "name": "Cloudflare Stream",
+      "type": "Video hosting",
+      "category": "cloud",
+      "cost_model": "paid",
+      "cost_estimate": "$1/1K min",
+      "action": "review",
+      "action_label": "Revisar minutos",
+      "notes": "Sin free tier real."
+    },
+    "REDIS_URL": {
+      "name": "Redis",
+      "type": "Cache",
+      "category": "cloud",
+      "cost_model": "free",
+      "cost_estimate": "$0",
+      "action": "keep",
+      "action_label": "OK",
+      "notes": "Docker local."
+    },
+    "LUCIDLINK_API_KEY": {
+      "name": "LucidLink",
+      "type": "Cloud filesystem",
+      "category": "media",
+      "cost_model": "paid",
+      "cost_estimate": "Variable",
+      "action": "keep",
+      "action_label": "Mantener (core)",
+      "notes": "Core para workflow de media."
+    },
+    "WHATSAPP_API_KEY": {
+      "name": "WhatsApp Business API",
+      "type": "Messaging",
+      "category": "comm",
+      "cost_model": "usage",
+      "cost_estimate": "$0 (1K conv free)",
+      "action": "check",
+      "action_label": "Verificar consumo",
+      "notes": "1000 conversaciones/mes gratis."
+    },
+    "SMTP_HOST": {
+      "name": "Gmail SMTP / API",
+      "type": "Email sending",
+      "category": "comm",
+      "cost_model": "free",
+      "cost_estimate": "$0",
+      "action": "keep",
+      "action_label": "OK",
+      "notes": "Incluido en Google Workspace."
+    },
+    "GMAIL_APP_PASSWORD": {
+      "name": "Gmail SMTP / API",
+      "type": "Email sending",
+      "category": "comm",
+      "cost_model": "free",
+      "cost_estimate": "$0",
+      "action": "keep",
+      "action_label": "OK",
+      "notes": "Incluido en Google Workspace."
+    },
+    "SHEET_ID": {
+      "name": "Google Sheets API",
+      "type": "Spreadsheets",
+      "category": "google",
+      "cost_model": "free",
+      "cost_estimate": "$0",
+      "action": "keep",
+      "action_label": "OK",
+      "notes": "API gratuita."
+    },
+    "GOOGLE_DRIVE_FOLDER_ID": {
+      "name": "Google Drive API",
+      "type": "File storage",
+      "category": "google",
+      "cost_model": "free",
+      "cost_estimate": "$0",
+      "action": "keep",
+      "action_label": "OK",
+      "notes": "API gratuita."
+    },
+    "GOOGLE_CLIENT_ID": {
+      "name": "Google OAuth",
+      "type": "Login",
+      "category": "google",
+      "cost_model": "free",
+      "cost_estimate": "$0",
+      "action": "keep",
+      "action_label": "OK",
+      "notes": "Autenticación gratuita."
+    },
+    "GITHUB_BACKUP_TOKEN": {
+      "name": "GitHub (backup)",
+      "type": "Code backup",
+      "category": "other",
+      "cost_model": "free",
+      "cost_estimate": "$0",
+      "action": "keep",
+      "action_label": "OK",
+      "notes": "Repos privados gratis."
+    }
+  },
+
+  "ghost_services": [
+    {
+      "name": "Stability AI / Stable Diffusion",
+      "type": "Image generation",
+      "category": "ai",
+      "cost_estimate": "US$30/mes",
+      "notes": "COBRO FANTASMA. No se usa en ningún proyecto. SDXL se usa via Layer.ai. Cancelar en platform.stability.ai.",
+      "search_terms": "stable diffusion stability dreamstudio"
+    }
+  ],
+
+  "extra_services": [
+    {
+      "name": "Cursor IDE",
+      "type": "IDE / AI coding",
+      "category": "other",
+      "cost_model": "paid",
+      "cost_estimate": "$20/mes (Pro)",
+      "action": "keep",
+      "action_label": "Mantener",
+      "notes": "IDE principal para todos los proyectos. Aparece como 'ENSTIL AI' en el extracto bancario. Empresa: Anysphere Inc.",
+      "search_terms": "cursor enstil anysphere ide editor",
+      "all_projects": true
+    },
+    {
+      "name": "Google Cloud (GCP)",
+      "type": "VM hosting",
+      "category": "cloud",
+      "cost_model": "usage",
+      "cost_estimate": "Variable",
+      "action": "review",
+      "action_label": "Revisar VM",
+      "notes": "VM con CDR-Flow. Verificar si corre 24/7.",
+      "search_terms": "google cloud gcp vm compute",
+      "projects": ["cdr-flow"]
+    },
+    {
+      "name": "Railway",
+      "type": "App hosting",
+      "category": "cloud",
+      "cost_model": "freemium",
+      "cost_estimate": "$0-5+/mes",
+      "action": "check",
+      "action_label": "Verificar plan",
+      "notes": "Deploy webhook contenido-locutora. Si no se usa, pausar.",
+      "search_terms": "railway hosting deploy",
+      "projects": ["natalia"]
+    },
+    {
+      "name": "Media Shuttle (Signiant)",
+      "type": "File transfer",
+      "category": "media",
+      "cost_model": "paid",
+      "cost_estimate": "Enterprise",
+      "action": "review",
+      "action_label": "Revisar contrato",
+      "notes": "api.mediashuttle.com en UI. Verificar si es contrato propio o de cliente.",
+      "search_terms": "signiant media shuttle file transfer",
+      "projects": ["cdr-flow"]
+    },
+    {
+      "name": "APIs tipo de cambio",
+      "type": "FX rates",
+      "category": "other",
+      "cost_model": "free",
+      "cost_estimate": "$0",
+      "action": "keep",
+      "action_label": "OK",
+      "notes": "BCRA, DolarAPI.com, mindicador.cl. Públicas sin key.",
+      "search_terms": "bcra dolar api tipo cambio exchange rate",
+      "projects": ["consolidado"]
+    }
+  ]
+}

@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FLOW Intelligence - Cost Dashboard</title>
+<style>
+  :root {
+    --bg: #0f172a; --card: #1e293b; --border: #334155; --text: #e2e8f0;
+    --muted: #94a3b8; --accent: #38bdf8; --green: #4ade80; --red: #f87171;
+    --yellow: #fbbf24; --orange: #fb923c; --purple: #a78bfa; --pink: #f472b6; --cyan: #22d3ee;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); padding: 2rem; line-height: 1.6; }
+  h1 { font-size: 1.8rem; margin-bottom: 0.3rem; }
+  h2 { font-size: 1.2rem; margin: 2rem 0 0.8rem; color: var(--accent); }
+  .subtitle { color: var(--muted); margin-bottom: 1.5rem; font-size: 0.88rem; }
+  .top-bar { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; }
+  .top-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 0.4rem 0.8rem; border-radius: 8px; cursor: pointer; font-size: 0.8rem; transition: all 0.15s; }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-primary { background: rgba(56,189,248,0.15); border-color: var(--accent); color: var(--accent); }
+  .btn-danger { background: rgba(248,113,113,0.1); border-color: var(--red); color: var(--red); }
+  .btn-success { background: rgba(74,222,128,0.1); border-color: var(--green); color: var(--green); }
+
+  /* Summary cards */
+  .summary-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.8rem; margin-bottom: 1.5rem; }
+  .summary-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; text-align: center; }
+  .summary-card .number { font-size: 1.8rem; font-weight: 700; }
+  .summary-card .label { color: var(--muted); font-size: 0.78rem; margin-top: 0.2rem; }
+
+  /* Cost breakdown bar */
+  .cost-bar-container { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.2rem; margin-bottom: 1.5rem; }
+  .cost-bar { display: flex; height: 32px; border-radius: 8px; overflow: hidden; margin: 0.8rem 0; }
+  .cost-bar-segment { display: flex; align-items: center; justify-content: center; font-size: 0.68rem; font-weight: 600; min-width: 30px; transition: all 0.3s; cursor: pointer; }
+  .cost-bar-segment:hover { filter: brightness(1.2); }
+  .cost-legend { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 0.5rem; }
+  .cost-legend-item { display: flex; align-items: center; gap: 0.3rem; font-size: 0.78rem; }
+  .cost-legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+  /* Alerts */
+  .alert-box { background: rgba(248, 113, 113, 0.1); border: 1px solid rgba(248, 113, 113, 0.3); border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 1rem; }
+  .alert-box h3 { color: var(--red); font-size: 0.95rem; margin-bottom: 0.4rem; }
+  .alert-info { background: rgba(56,189,248,0.1); border: 1px solid rgba(56,189,248,0.3); }
+  .alert-info h3 { color: var(--accent); }
+  .alert-success { background: rgba(74,222,128,0.1); border: 1px solid rgba(74,222,128,0.3); }
+  .alert-success h3 { color: var(--green); }
+  .alert-warning { background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.3); }
+  .alert-warning h3 { color: var(--yellow); }
+
+  /* Filters */
+  .filter-section { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.2rem; margin-bottom: 1.5rem; }
+  .filter-bar { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.6rem; align-items: center; }
+  .filter-bar label { font-size: 0.8rem; color: var(--muted); font-weight: 600; min-width: 70px; }
+  .filter-btn { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 0.3rem 0.6rem; border-radius: 8px; cursor: pointer; font-size: 0.75rem; transition: all 0.15s; user-select: none; }
+  .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .filter-btn.active { border-color: var(--accent); background: rgba(56,189,248,0.15); color: var(--accent); }
+  .search-box { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.45rem 0.75rem; color: var(--text); font-size: 0.82rem; width: 220px; outline: none; }
+  .search-box:focus { border-color: var(--accent); }
+  .count-display { font-size: 0.78rem; color: var(--muted); margin-top: 0.5rem; }
+
+  /* Table */
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  th { background: var(--card); padding: 0.6rem 0.65rem; text-align: left; font-weight: 600; border-bottom: 2px solid var(--border); position: sticky; top: 0; white-space: nowrap; cursor: pointer; z-index: 10; }
+  th:hover { color: var(--accent); }
+  td { padding: 0.5rem 0.65rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:hover td { background: rgba(56, 189, 248, 0.04); }
+  tr.hidden { display: none; }
+
+  /* Badges */
+  .badge { display: inline-block; padding: 0.1rem 0.45rem; border-radius: 9999px; font-size: 0.7rem; font-weight: 600; white-space: nowrap; }
+  .badge-active { background: rgba(74, 222, 128, 0.15); color: var(--green); }
+  .badge-inactive { background: rgba(248, 113, 113, 0.15); color: var(--red); }
+  .badge-ghost { background: rgba(248, 113, 113, 0.25); color: var(--red); border: 1px dashed var(--red); }
+  .badge-free { background: rgba(74, 222, 128, 0.1); color: var(--green); border: 1px solid rgba(74,222,128,0.3); }
+  .badge-paid { background: rgba(248, 113, 113, 0.1); color: var(--red); border: 1px solid rgba(248,113,113,0.3); }
+  .badge-freemium { background: rgba(251, 191, 36, 0.1); color: var(--yellow); border: 1px solid rgba(251,191,36,0.3); }
+  .badge-usage { background: rgba(167, 139, 250, 0.1); color: var(--purple); border: 1px solid rgba(167,139,250,0.3); }
+  .proj-tag { display: inline-block; padding: 0.1rem 0.4rem; border-radius: 6px; font-size: 0.65rem; font-weight: 600; margin: 1px 1px; }
+  .proj-c2b { background: rgba(56,189,248,0.15); color: var(--accent); }
+  .proj-cdr { background: rgba(251,146,60,0.15); color: var(--orange); }
+  .proj-nat { background: rgba(244,114,182,0.15); color: var(--pink); }
+  .proj-met { background: rgba(74,222,128,0.15); color: var(--green); }
+  .proj-notif { background: rgba(167,139,250,0.15); color: var(--purple); }
+  .proj-pay { background: rgba(251,191,36,0.15); color: var(--yellow); }
+  .proj-cons { background: rgba(34,211,238,0.15); color: var(--cyan); }
+  .proj-none { background: rgba(248,113,113,0.15); color: var(--red); }
+  .action-tag { display: inline-block; padding: 0.1rem 0.4rem; border-radius: 6px; font-size: 0.68rem; font-weight: 600; }
+  .action-review { background: rgba(251, 191, 36, 0.2); color: var(--yellow); }
+  .action-downgrade { background: rgba(248, 113, 113, 0.2); color: var(--red); }
+  .action-keep { background: rgba(74, 222, 128, 0.2); color: var(--green); }
+  .action-cancel { background: rgba(248, 113, 113, 0.3); color: var(--red); }
+  .action-check { background: rgba(148, 163, 184, 0.2); color: var(--muted); }
+  .notes { color: var(--muted); font-size: 0.75rem; }
+  .env-var { font-family: 'SF Mono', Monaco, monospace; font-size: 0.7rem; color: var(--cyan); }
+
+  /* Editable fields */
+  .editable { cursor: pointer; border-bottom: 1px dashed rgba(56,189,248,0.3); transition: all 0.15s; padding: 1px 3px; border-radius: 4px; }
+  .editable:hover { background: rgba(56,189,248,0.1); border-bottom-color: var(--accent); }
+  .edit-input { background: var(--bg); border: 1px solid var(--accent); border-radius: 4px; color: var(--text); padding: 2px 6px; font-size: inherit; font-family: inherit; width: 100%; outline: none; }
+  .edit-input:focus { box-shadow: 0 0 0 2px rgba(56,189,248,0.2); }
+  .edit-select { background: var(--bg); border: 1px solid var(--accent); border-radius: 4px; color: var(--text); padding: 2px 4px; font-size: 0.72rem; outline: none; }
+
+  /* Status indicator */
+  .status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; }
+  .status-active { background: var(--green); }
+  .status-paused { background: var(--yellow); }
+  .status-cancelled { background: var(--red); }
+  .status-reviewing { background: var(--accent); }
+
+  /* Feedback saved indicator */
+  .save-indicator { position: fixed; bottom: 2rem; right: 2rem; background: var(--green); color: #000; padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.82rem; font-weight: 600; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 100; }
+  .save-indicator.show { opacity: 1; }
+
+  .footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.75rem; }
+
+  @media (max-width: 768px) {
+    body { padding: 1rem; }
+    table { font-size: 0.73rem; }
+    td, th { padding: 0.3rem; }
+    .search-box { width: 100%; }
+    .top-bar { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div>
+    <h1>FLOW Intelligence</h1>
+    <p class="subtitle">Cost Dashboard &mdash; Scan: <!--SCAN_DATE--> &mdash; Click en cualquier costo o nota para editar</p>
+  </div>
+  <div class="top-actions">
+    <button class="btn btn-primary" onclick="rescan()">Re-escanear</button>
+    <button class="btn btn-success" onclick="saveSnapshot()">Guardar snapshot mensual</button>
+    <button class="btn" onclick="exportFeedback()">Exportar JSON</button>
+  </div>
+</div>
+
+<!-- Summary -->
+<div class="summary-cards" id="summaryCards"></div>
+
+<!-- Cost breakdown -->
+<div class="cost-bar-container">
+  <div style="display:flex;justify-content:space-between;align-items:baseline;">
+    <h2 style="margin:0;font-size:1rem;">Costo mensual estimado</h2>
+    <div style="font-size:1.5rem;font-weight:700;" id="totalCost">$0</div>
+  </div>
+  <div class="cost-bar" id="costBar"></div>
+  <div class="cost-legend" id="costLegend"></div>
+</div>
+
+<!-- Alerts -->
+<div id="alertsContainer"></div>
+
+<!-- Filters -->
+<div class="filter-section">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.6rem;">
+    <span style="font-size:0.88rem;font-weight:600;">Filtros</span>
+    <input type="text" class="search-box" id="searchInput" placeholder="Buscar servicio..." oninput="applyFilters()">
+  </div>
+  <div class="filter-bar">
+    <label>Proyecto:</label>
+    <div id="projectFilters"></div>
+  </div>
+  <div class="filter-bar">
+    <label>Pago:</label>
+    <div id="costFilters"></div>
+  </div>
+  <div class="filter-bar">
+    <label>Acción:</label>
+    <div id="actionFilters"></div>
+  </div>
+  <div class="filter-bar">
+    <label>Categoría:</label>
+    <div id="catFilters"></div>
+  </div>
+  <div class="filter-bar">
+    <label>Estado:</label>
+    <div id="statusFilters"></div>
+  </div>
+  <div class="count-display" id="countDisplay"></div>
+</div>
+
+<!-- Main table -->
+<table>
+<thead>
+<tr>
+  <th onclick="sortTable(0)">Servicio</th>
+  <th onclick="sortTable(1)">Tipo</th>
+  <th>Proyecto</th>
+  <th onclick="sortTable(3)">Pago</th>
+  <th onclick="sortTable(4)">Costo real/mes</th>
+  <th>Estado</th>
+  <th>Acción</th>
+  <th>Notas / Feedback</th>
+</tr>
+</thead>
+<tbody id="tableBody"></tbody>
+</table>
+
+<div class="footer">
+  <p><strong>Tip:</strong> Hacé click en "Costo real/mes", "Estado" o "Notas" para editar. Los cambios se guardan automáticamente en el servidor.</p>
+  <p style="margin-top:0.3rem">FLOW Intelligence Cost Dashboard &mdash; <code>python3 server.py</code> para iniciar</p>
+</div>
+
+<div class="save-indicator" id="saveIndicator">Guardado</div>
+
+<script>
+// Data injected by scan.py
+const SCAN_DATA = /*SCAN_DATA_JSON*/;
+const PROJECTS = /*PROJECTS_JSON*/;
+const DIFF = /*DIFF_JSON*/;
+const NEW_VARS = /*NEW_VARS_JSON*/;
+
+const API_BASE = window.location.origin;
+let feedback = { services: {} };
+let filterState = { proj: 'all', cost: 'all', act: 'all', cat: 'all', status: 'all' };
+
+const CATEGORY_COLORS = {
+  ai: '#a78bfa', sales: '#f87171', ads: '#fb923c', pm: '#fbbf24',
+  cloud: '#38bdf8', media: '#22d3ee', comm: '#4ade80', google: '#34d399', other: '#94a3b8'
+};
+const CATEGORY_LABELS = {
+  ai: 'AI/LLM', sales: 'Sales', ads: 'Ads', pm: 'PM', cloud: 'Cloud',
+  media: 'Media', comm: 'Comunicación', google: 'Google', other: 'Otros'
+};
+const STATUS_OPTIONS = [
+  { value: 'active', label: 'Activo', dot: 'status-active' },
+  { value: 'reviewing', label: 'Revisando', dot: 'status-reviewing' },
+  { value: 'paused', label: 'Pausado', dot: 'status-paused' },
+  { value: 'cancelled', label: 'Cancelado', dot: 'status-cancelled' },
+];
+const COST_LABELS = { paid: 'Pago', usage: 'Pay-as-you-go', freemium: 'Freemium', free: 'Gratis', ghost: 'Fantasma' };
+const COST_BADGE = { paid: 'badge-paid', usage: 'badge-usage', freemium: 'badge-freemium', free: 'badge-free', ghost: 'badge-ghost' };
+const ACTION_LABELS = { cancel: 'Cancelar', downgrade: 'Bajar plan', review: 'Revisar', check: 'Verificar', keep: 'Mantener' };
+
+async function init() {
+  await loadFeedback();
+  renderSummary();
+  renderCostBar();
+  renderAlerts();
+  renderFilters();
+  renderTable();
+  applyFilters();
+}
+
+async function loadFeedback() {
+  try {
+    const res = await fetch(`${API_BASE}/api/feedback`);
+    if (res.ok) feedback = await res.json();
+  } catch (e) {
+    feedback = JSON.parse(localStorage.getItem('flow_feedback') || '{"services":{}}');
+  }
+}
+
+async function saveFeedback(serviceId, data) {
+  try {
+    const res = await fetch(`${API_BASE}/api/feedback/service`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ service_id: serviceId, ...data }),
+    });
+    if (res.ok) {
+      if (!feedback.services) feedback.services = {};
+      if (!feedback.services[serviceId]) feedback.services[serviceId] = {};
+      Object.assign(feedback.services[serviceId], data);
+      localStorage.setItem('flow_feedback', JSON.stringify(feedback));
+      showSaved();
+      renderSummary();
+      renderCostBar();
+    }
+  } catch (e) {
+    if (!feedback.services) feedback.services = {};
+    if (!feedback.services[serviceId]) feedback.services[serviceId] = {};
+    Object.assign(feedback.services[serviceId], data);
+    localStorage.setItem('flow_feedback', JSON.stringify(feedback));
+    showSaved();
+    renderSummary();
+    renderCostBar();
+  }
+}
+
+function showSaved() {
+  const el = document.getElementById('saveIndicator');
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 1500);
+}
+
+function getSvcFeedback(svcId) {
+  return (feedback.services && feedback.services[svcId]) || {};
+}
+
+function parseCost(val) {
+  if (typeof val === 'number') return val;
+  if (!val) return 0;
+  const n = parseFloat(String(val).replace(/[^0-9.\-]/g, ''));
+  return isNaN(n) ? 0 : n;
+}
+
+function getEffectiveCost(svc) {
+  const fb = getSvcFeedback(svc.id);
+  if (fb.actual_cost !== undefined && fb.actual_cost !== '') return parseCost(fb.actual_cost);
+  return parseCost(svc.cost_estimate);
+}
+
+function getEffectiveStatus(svc) {
+  const fb = getSvcFeedback(svc.id);
+  if (fb.status) return fb.status;
+  if (svc.cost_model === 'ghost') return 'cancelled';
+  if (svc.cost_model === 'free') return 'active';
+  return 'reviewing';
+}
+
+function projTag(projId) {
+  const p = PROJECTS.find(x => x.id === projId);
+  if (!p) return '';
+  return `<span class="proj-tag ${p.tag_class}">${p.tag_label}</span>`;
+}
+
+// RENDER
+function renderSummary() {
+  let totalCost = 0, paidCount = 0, freeCount = 0, ghostCount = 0;
+  SCAN_DATA.forEach(svc => {
+    totalCost += getEffectiveCost(svc);
+    if (svc.cost_model === 'ghost') ghostCount++;
+    else if (['paid', 'usage'].includes(svc.cost_model)) paidCount++;
+    else freeCount++;
+  });
+  document.getElementById('summaryCards').innerHTML = `
+    <div class="summary-card"><div class="number" style="color:var(--accent)">${PROJECTS.filter(p => p.exists !== false).length}</div><div class="label">Proyectos</div></div>
+    <div class="summary-card"><div class="number" style="color:var(--text)">${SCAN_DATA.length}</div><div class="label">Servicios</div></div>
+    <div class="summary-card"><div class="number" style="color:var(--red)">$${totalCost.toFixed(0)}</div><div class="label">Costo mensual</div></div>
+    <div class="summary-card"><div class="number" style="color:var(--yellow)">${paidCount}</div><div class="label">Pagos</div></div>
+    <div class="summary-card"><div class="number" style="color:var(--green)">${freeCount}</div><div class="label">Gratis</div></div>
+    <div class="summary-card"><div class="number" style="color:var(--red)">${ghostCount}</div><div class="label">Fantasma${ghostCount !== 1 ? 's' : ''}</div></div>
+  `;
+}
+
+function renderCostBar() {
+  const byCat = {};
+  let total = 0;
+  SCAN_DATA.forEach(svc => {
+    const cost = getEffectiveCost(svc);
+    if (cost > 0) {
+      const cat = svc.category || 'other';
+      byCat[cat] = (byCat[cat] || 0) + cost;
+      total += cost;
+    }
+  });
+  document.getElementById('totalCost').textContent = `$${total.toFixed(0)}/mes`;
+  if (total === 0) {
+    document.getElementById('costBar').innerHTML = '<div style="flex:1;background:var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:0.78rem;">Ingresá costos reales haciendo click en la columna "Costo real/mes"</div>';
+    document.getElementById('costLegend').innerHTML = '';
+    return;
+  }
+  let barHtml = '', legendHtml = '';
+  Object.entries(byCat).sort((a, b) => b[1] - a[1]).forEach(([cat, cost]) => {
+    const pct = (cost / total * 100).toFixed(1);
+    const color = CATEGORY_COLORS[cat] || '#94a3b8';
+    barHtml += `<div class="cost-bar-segment" style="flex:${pct};background:${color}" title="${CATEGORY_LABELS[cat] || cat}: $${cost.toFixed(0)}">$${cost.toFixed(0)}</div>`;
+    legendHtml += `<div class="cost-legend-item"><div class="cost-legend-dot" style="background:${color}"></div>${CATEGORY_LABELS[cat] || cat}: $${cost.toFixed(0)} (${pct}%)</div>`;
+  });
+  document.getElementById('costBar').innerHTML = barHtml;
+  document.getElementById('costLegend').innerHTML = legendHtml;
+}
+
+function renderAlerts() {
+  let html = '';
+  SCAN_DATA.filter(s => s.cost_model === 'ghost').forEach(s => {
+    html += `<div class="alert-box"><h3>COBRO FANTASMA: ${s.name} — ${s.cost_estimate}</h3><p style="font-size:0.85rem">${s.notes}</p></div>`;
+  });
+  const enstil = SCAN_DATA.find(s => s.enstil);
+  if (enstil) {
+    html += `<div class="alert-box alert-success"><h3>ACLARADO: "Enstil AI" = Cursor IDE (Anysphere Inc.)</h3><p style="font-size:0.85rem">${enstil.notes}</p></div>`;
+  }
+  if (DIFF && Object.values(DIFF).some(v => v && v.length)) {
+    let items = '';
+    if (DIFF.new_services?.length) items += `<li><strong>Servicios nuevos:</strong> ${DIFF.new_services.join(', ')}</li>`;
+    if (DIFF.removed_services?.length) items += `<li><strong>Eliminados:</strong> ${DIFF.removed_services.join(', ')}</li>`;
+    if (DIFF.new_vars?.length) items += `<li><strong>Vars nuevas:</strong> <code>${DIFF.new_vars.join(', ')}</code></li>`;
+    if (items) html += `<div class="alert-box alert-info"><h3>Cambios desde último scan</h3><ul style="font-size:0.85rem;padding-left:1.2rem">${items}</ul></div>`;
+  }
+  if (NEW_VARS && NEW_VARS.length) {
+    html += `<div class="alert-box alert-warning"><h3>Variables .env desconocidas (${NEW_VARS.length})</h3><p style="font-size:0.85rem"><code>${NEW_VARS.join(', ')}</code></p><p style="font-size:0.78rem;color:var(--muted);margin-top:0.3rem">Catalogalas en services_config.json</p></div>`;
+  }
+  document.getElementById('alertsContainer').innerHTML = html;
+}
+
+function renderFilters() {
+  const makeBtn = (filter, label, group) => `<button class="filter-btn${filter.endsWith('-all') ? ' active' : ''}" data-filter="${filter}" onclick="toggleFilter(this,'${group}')">${label}</button>`;
+
+  let projHtml = makeBtn('all', 'Todos', 'proj');
+  PROJECTS.forEach(p => { projHtml += makeBtn(p.id, `<span class="proj-tag ${p.tag_class}" style="margin:0">${p.tag_label}</span>`, 'proj'); });
+  projHtml += makeBtn('none', '<span class="proj-tag proj-none" style="margin:0">Sin proyecto</span>', 'proj');
+  document.getElementById('projectFilters').innerHTML = projHtml;
+
+  document.getElementById('costFilters').innerHTML = makeBtn('all', 'Todos', 'cost') +
+    Object.entries(COST_LABELS).map(([k, v]) => makeBtn(k, `<span class="badge ${COST_BADGE[k]}" style="margin:0">${v}</span>`, 'cost')).join('');
+
+  document.getElementById('actionFilters').innerHTML = makeBtn('all', 'Todos', 'act') +
+    Object.entries(ACTION_LABELS).map(([k, v]) => makeBtn(k, `<span class="action-tag action-${k}" style="margin:0">${v}</span>`, 'act')).join('');
+
+  document.getElementById('catFilters').innerHTML = makeBtn('all', 'Todos', 'cat') +
+    Object.entries(CATEGORY_LABELS).map(([k, v]) => makeBtn(k, v, 'cat')).join('');
+
+  document.getElementById('statusFilters').innerHTML = makeBtn('all', 'Todos', 'status') +
+    STATUS_OPTIONS.map(s => makeBtn(s.value, `<span class="status-dot ${s.dot}"></span>${s.label}`, 'status')).join('');
+}
+
+function renderTable() {
+  const tbody = document.getElementById('tableBody');
+  tbody.innerHTML = SCAN_DATA.map(svc => {
+    const fb = getSvcFeedback(svc.id);
+    const cost = getEffectiveCost(svc);
+    const status = getEffectiveStatus(svc);
+    const statusOpt = STATUS_OPTIONS.find(s => s.value === status) || STATUS_OPTIONS[0];
+    const projIds = svc.projects || [];
+    const projData = projIds.length ? projIds.join(' ') : 'none';
+    const userNotes = fb.user_notes || '';
+
+    return `<tr data-id="${svc.id}" data-proj="${projData}" data-cost="${svc.cost_model}" data-act="${svc.action}" data-cat="${svc.category}" data-status="${status}" data-search="${svc.search}">
+  <td><strong${svc.cost_model === 'ghost' ? ' style="color:var(--red)"' : ''}>${svc.name}</strong>${svc.enstil ? ' <span style="color:var(--muted);font-size:0.68rem">("Enstil AI" en banco)</span>' : ''}${svc.env_var ? `<br><span class="env-var">${svc.env_var}</span>` : ''}</td>
+  <td>${svc.type}</td>
+  <td>${projIds.length ? projIds.map(p => projTag(p)).join('') : '<span class="proj-tag proj-none">NINGUNO</span>'}</td>
+  <td><span class="badge ${COST_BADGE[svc.cost_model] || 'badge-free'}">${COST_LABELS[svc.cost_model] || svc.cost_model}</span></td>
+  <td><span class="editable" onclick="editCost(this, '${svc.id}')" data-field="cost">$${cost.toFixed(0)}</span></td>
+  <td><span class="editable" onclick="editStatus(this, '${svc.id}')" data-field="status"><span class="status-dot ${statusOpt.dot}"></span>${statusOpt.label}</span></td>
+  <td><span class="action-tag action-${svc.action}">${svc.action_label}</span></td>
+  <td>
+    <div class="notes">${svc.notes}</div>
+    <div style="margin-top:4px"><span class="editable" onclick="editNotes(this, '${svc.id}')" data-field="notes" style="font-size:0.75rem;color:var(--accent)">${userNotes || '+ Agregar feedback'}</span></div>
+  </td>
+</tr>`;
+  }).join('');
+}
+
+// INLINE EDITING
+function editCost(el, svcId) {
+  const current = parseCost(el.textContent);
+  const input = document.createElement('input');
+  input.type = 'number';
+  input.className = 'edit-input';
+  input.value = current || '';
+  input.placeholder = '0';
+  input.style.width = '80px';
+  el.replaceWith(input);
+  input.focus();
+  input.select();
+
+  const save = () => {
+    const val = parseFloat(input.value) || 0;
+    const span = document.createElement('span');
+    span.className = 'editable';
+    span.setAttribute('onclick', `editCost(this, '${svcId}')`);
+    span.setAttribute('data-field', 'cost');
+    span.textContent = `$${val.toFixed(0)}`;
+    input.replaceWith(span);
+    saveFeedback(svcId, { actual_cost: val });
+  };
+  input.addEventListener('blur', save);
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') save(); if (e.key === 'Escape') { input.replaceWith(el); } });
+}
+
+function editStatus(el, svcId) {
+  const select = document.createElement('select');
+  select.className = 'edit-select';
+  STATUS_OPTIONS.forEach(s => {
+    const opt = document.createElement('option');
+    opt.value = s.value;
+    opt.textContent = s.label;
+    if (s.value === getEffectiveStatus(SCAN_DATA.find(x => x.id === svcId))) opt.selected = true;
+    select.appendChild(opt);
+  });
+  el.replaceWith(select);
+  select.focus();
+
+  const save = () => {
+    const val = select.value;
+    const statusOpt = STATUS_OPTIONS.find(s => s.value === val);
+    const span = document.createElement('span');
+    span.className = 'editable';
+    span.setAttribute('onclick', `editStatus(this, '${svcId}')`);
+    span.setAttribute('data-field', 'status');
+    span.innerHTML = `<span class="status-dot ${statusOpt.dot}"></span>${statusOpt.label}`;
+    select.replaceWith(span);
+    const row = span.closest('tr');
+    if (row) row.dataset.status = val;
+    saveFeedback(svcId, { status: val });
+  };
+  select.addEventListener('change', save);
+  select.addEventListener('blur', save);
+}
+
+function editNotes(el, svcId) {
+  const fb = getSvcFeedback(svcId);
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.className = 'edit-input';
+  input.value = fb.user_notes || '';
+  input.placeholder = 'Tu feedback aquí...';
+  el.replaceWith(input);
+  input.focus();
+
+  const save = () => {
+    const val = input.value.trim();
+    const span = document.createElement('span');
+    span.className = 'editable';
+    span.setAttribute('onclick', `editNotes(this, '${svcId}')`);
+    span.setAttribute('data-field', 'notes');
+    span.style.fontSize = '0.75rem';
+    span.style.color = val ? 'var(--text)' : 'var(--accent)';
+    span.textContent = val || '+ Agregar feedback';
+    input.replaceWith(span);
+    saveFeedback(svcId, { user_notes: val });
+  };
+  input.addEventListener('blur', save);
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') save(); if (e.key === 'Escape') { input.replaceWith(el); } });
+}
+
+// FILTERS
+function toggleFilter(btn, group) {
+  const parent = btn.parentElement;
+  const filter = btn.dataset.filter;
+  if (filter === 'all') {
+    parent.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterState[group] = 'all';
+  } else {
+    parent.querySelector('[data-filter="all"]')?.classList.remove('active');
+    btn.classList.toggle('active');
+    const active = [...parent.querySelectorAll('.filter-btn.active')].map(b => b.dataset.filter).filter(f => f !== 'all');
+    if (active.length === 0) {
+      parent.querySelector('[data-filter="all"]')?.classList.add('active');
+      filterState[group] = 'all';
+    } else {
+      filterState[group] = active.join(' ');
+    }
+  }
+  applyFilters();
+}
+
+function applyFilters() {
+  const rows = document.querySelectorAll('#tableBody tr');
+  const search = document.getElementById('searchInput').value.toLowerCase().trim();
+  let visible = 0;
+
+  rows.forEach(row => {
+    let show = true;
+    if (filterState.proj !== 'all') {
+      const rp = row.dataset.proj || '';
+      if (!filterState.proj.split(' ').some(p => rp.includes(p))) show = false;
+    }
+    if (show && filterState.cost !== 'all') {
+      if (!filterState.cost.split(' ').includes(row.dataset.cost)) show = false;
+    }
+    if (show && filterState.act !== 'all') {
+      if (!filterState.act.split(' ').includes(row.dataset.act)) show = false;
+    }
+    if (show && filterState.cat !== 'all') {
+      if (!filterState.cat.split(' ').includes(row.dataset.cat)) show = false;
+    }
+    if (show && filterState.status !== 'all') {
+      if (!filterState.status.split(' ').includes(row.dataset.status)) show = false;
+    }
+    if (show && search) {
+      if (!(row.dataset.search + ' ' + row.textContent.toLowerCase()).includes(search)) show = false;
+    }
+    row.classList.toggle('hidden', !show);
+    if (show) visible++;
+  });
+  document.getElementById('countDisplay').textContent = `Mostrando ${visible} de ${rows.length} servicios`;
+}
+
+function sortTable(col) {
+  const tbody = document.getElementById('tableBody');
+  const rows = [...tbody.querySelectorAll('tr')];
+  const dir = tbody.dataset.sortDir === 'asc' ? 'desc' : 'asc';
+  tbody.dataset.sortDir = dir;
+  rows.sort((a, b) => {
+    const at = (a.cells[col]?.textContent || '').trim().toLowerCase();
+    const bt = (b.cells[col]?.textContent || '').trim().toLowerCase();
+    return dir === 'asc' ? at.localeCompare(bt) : bt.localeCompare(at);
+  });
+  rows.forEach(r => tbody.appendChild(r));
+}
+
+// ACTIONS
+async function rescan() {
+  const btn = event.target;
+  btn.textContent = 'Escaneando...';
+  btn.disabled = true;
+  try {
+    const res = await fetch(`${API_BASE}/api/scan`);
+    const data = await res.json();
+    if (data.ok) {
+      location.reload();
+    } else {
+      alert('Error en scan: ' + (data.stderr || 'desconocido'));
+    }
+  } catch (e) {
+    alert('Error: ' + e.message);
+  } finally {
+    btn.textContent = 'Re-escanear';
+    btn.disabled = false;
+  }
+}
+
+async function saveSnapshot() {
+  try {
+    const res = await fetch(`${API_BASE}/api/snapshot`, { method: 'POST' });
+    const data = await res.json();
+    if (data.ok) {
+      showSaved();
+      alert(`Snapshot guardado: ${data.snapshot.date} — Total: $${data.snapshot.total}`);
+    }
+  } catch (e) {
+    alert('Error: ' + e.message);
+  }
+}
+
+function exportFeedback() {
+  const blob = new Blob([JSON.stringify(feedback, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `flow-intelligence-feedback-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+init();
+</script>
+</body>
+</html>
