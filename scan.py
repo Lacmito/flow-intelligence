@@ -248,6 +248,16 @@ def generate_html(config: dict, scan_results: list[dict], matched: dict, diff: d
     html = html.replace("/*DIFF_JSON*/", json.dumps(diff, ensure_ascii=False))
     html = html.replace("/*NEW_VARS_JSON*/", json.dumps(matched["new_vars"], ensure_ascii=False))
 
+    weights = {k: {pk: pv for pk, pv in v.items() if not pk.startswith("_")}
+               for k, v in config.get("allocation_weights", {}).items() if not k.startswith("_")}
+    html = html.replace("/*WEIGHTS_JSON*/", json.dumps(weights, ensure_ascii=False))
+
+    billing_js_path = SCRIPT_DIR / "billing.js"
+    if billing_js_path.exists():
+        with open(billing_js_path, "r", encoding="utf-8") as f:
+            billing_js = f.read()
+        html = html.replace("/*BILLING_JS*/", billing_js)
+
     return html
 
 
@@ -288,11 +298,7 @@ def main():
     html = generate_html(config, scan_results, matched, diff)
     with open(OUTPUT_HTML, "w", encoding="utf-8") as f:
         f.write(html)
-    index_html = SCRIPT_DIR / "index.html"
-    with open(index_html, "w", encoding="utf-8") as f:
-        f.write(html)
     print(f"  -> {OUTPUT_HTML}")
-    print(f"  -> {index_html} (GitHub Pages)")
 
     save_scan_state(matched, scan_results)
 

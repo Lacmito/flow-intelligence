@@ -57,7 +57,6 @@
       "description": "Reportes consolidados y tipos de cambio"
     }
   ],
-
   "env_patterns": [
     "OPENAI_API_KEY",
     "GOOGLE_API_KEY",
@@ -107,33 +106,95 @@
     "LAYER_API_TOKEN",
     "RUNWAY_API_KEY",
     "STABILITY_API_KEY",
-    "ADMIN_NOTIFICATION_EMAIL", "ALLOWED_ORIGINS", "API_HOST", "API_PORT", "APP_URL",
-    "ARCHIVE_AFTER_DAYS", "AUDIO_DOWNLOAD_PATH", "BRIDGE_SECRET",
-    "CF_ACCOUNT_ID", "CF_R2_BUCKET_NAME", "CF_STREAM_CUSTOMER_SUBDOMAIN",
-    "COMPANY_ADDRESS", "COMPANY_EMAIL", "COMPANY_NAME", "COMPANY_PHONE",
-    "CORS_ORIGINS", "DATABASE_URL_SYNC", "DELETE_AFTER_ARCHIVE",
-    "EMAIL_FROM", "ENV", "FFMPEG_PATH", "FFPROBE_PATH", "FLOW_URL",
-    "FLUX_IMAGE_TO_IMAGE_STRENGTH", "FLUX_MODEL", "GEMINI_IMAGE_MODEL", "GEMINI_TEXT_MODEL",
-    "GITHUB_BACKUP_REPO", "GMAIL_ADMIN_EMAIL", "GMAIL_RECIPIENT_EMAIL", "GMAIL_SENDER_EMAIL",
-    "GMAIL_SERVICE_ACCOUNT_PATH", "GOOGLE_CALLBACK_URL", "GOOGLE_SERVICE_ACCOUNT_KEY",
-    "HOST", "JWT_SECRET", "LAYER_MODEL_NAME", "LOGIN_RATE_LIMIT_MAX", "LOG_FILE",
-    "LUCIDLINK_API_URL", "LUCIDLINK_AUTO_PERMISSIONS", "LUCIDLINK_CLIENT_PORT",
-    "LUCIDLINK_FILESPACE_ID", "LUCIDLINK_MOUNT_POINT", "LUCIDLINK_WORKER_KEY", "LUCIDLINK_WORKER_URL",
+    "ADMIN_NOTIFICATION_EMAIL",
+    "ALLOWED_ORIGINS",
+    "API_HOST",
+    "API_PORT",
+    "APP_URL",
+    "ARCHIVE_AFTER_DAYS",
+    "AUDIO_DOWNLOAD_PATH",
+    "BRIDGE_SECRET",
+    "CF_ACCOUNT_ID",
+    "CF_R2_BUCKET_NAME",
+    "CF_STREAM_CUSTOMER_SUBDOMAIN",
+    "COMPANY_ADDRESS",
+    "COMPANY_EMAIL",
+    "COMPANY_NAME",
+    "COMPANY_PHONE",
+    "CORS_ORIGINS",
+    "DATABASE_URL_SYNC",
+    "DELETE_AFTER_ARCHIVE",
+    "EMAIL_FROM",
+    "ENV",
+    "FFMPEG_PATH",
+    "FFPROBE_PATH",
+    "FLOW_URL",
+    "FLUX_IMAGE_TO_IMAGE_STRENGTH",
+    "FLUX_MODEL",
+    "GEMINI_IMAGE_MODEL",
+    "GEMINI_TEXT_MODEL",
+    "GITHUB_BACKUP_REPO",
+    "GMAIL_ADMIN_EMAIL",
+    "GMAIL_RECIPIENT_EMAIL",
+    "GMAIL_SENDER_EMAIL",
+    "GMAIL_SERVICE_ACCOUNT_PATH",
+    "GOOGLE_CALLBACK_URL",
+    "GOOGLE_SERVICE_ACCOUNT_KEY",
+    "HOST",
+    "JWT_SECRET",
+    "LAYER_MODEL_NAME",
+    "LOGIN_RATE_LIMIT_MAX",
+    "LOG_FILE",
+    "LUCIDLINK_API_URL",
+    "LUCIDLINK_AUTO_PERMISSIONS",
+    "LUCIDLINK_CLIENT_PORT",
+    "LUCIDLINK_FILESPACE_ID",
+    "LUCIDLINK_MOUNT_POINT",
+    "LUCIDLINK_WORKER_KEY",
+    "LUCIDLINK_WORKER_URL",
     "MAX_CONCURRENT",
-    "MONDAY_BOARD_ACTORES", "MONDAY_BOARD_EQUIPO", "MONDAY_BOARD_ID", "MONDAY_BOARD_TRADUCTORES",
-    "MONDAY_MIRROR_ENABLED", "MONDAY_TEMPLATE_BOARD_ID", "MONDAY_TOKEN_ENCRYPTION_KEY", "MONDAY_WORKSPACE_ID",
-    "NAS_ARCHIVE_PATH", "NODE_ENV",
-    "OPENAI_MODEL", "OPENAI_MODEL_CLASSIFY", "OPENAI_MODEL_DRAFT", "OPENAI_WHISPER_MODEL",
-    "PM_INBOX_ENABLED", "PM_INBOX_POLL_INTERVAL", "PM_TRAINING_MODE", "PM_TRAINING_REDIRECT",
-    "POLL_INTERVAL_MS", "PORT", "PROXY_TEMP_DIR", "PROXY_WATCH_DIR",
-    "QC_POLL_INTERVAL", "QC_WATCH_DIRS", "R2_PUBLIC_URL",
-    "RATE_LIMIT_MAX", "RATE_LIMIT_WINDOW_MS", "RCLONE_REMOTE",
-    "SECURITY_ALERT_EMAIL", "SMTP_FROM", "SMTP_PORT", "STAGING_ROOT",
-    "TRANSCRIPTION_PATH", "UPLOADS_DIR", "UPLOAD_PORTAL_DIR",
-    "WEBAUTHN_ORIGIN", "WEBAUTHN_RP_ID", "WEBAUTHN_RP_NAME",
-    "WHATSAPP_AUTHORIZED_NUMBERS", "WHATSAPP_BUSINESS_ACCOUNT_ID", "WHATSAPP_WEBHOOK_VERIFY_TOKEN"
+    "MONDAY_BOARD_ACTORES",
+    "MONDAY_BOARD_EQUIPO",
+    "MONDAY_BOARD_ID",
+    "MONDAY_BOARD_TRADUCTORES",
+    "MONDAY_MIRROR_ENABLED",
+    "MONDAY_TEMPLATE_BOARD_ID",
+    "MONDAY_TOKEN_ENCRYPTION_KEY",
+    "MONDAY_WORKSPACE_ID",
+    "NAS_ARCHIVE_PATH",
+    "NODE_ENV",
+    "OPENAI_MODEL",
+    "OPENAI_MODEL_CLASSIFY",
+    "OPENAI_MODEL_DRAFT",
+    "OPENAI_WHISPER_MODEL",
+    "PM_INBOX_ENABLED",
+    "PM_INBOX_POLL_INTERVAL",
+    "PM_TRAINING_MODE",
+    "PM_TRAINING_REDIRECT",
+    "POLL_INTERVAL_MS",
+    "PORT",
+    "PROXY_TEMP_DIR",
+    "PROXY_WATCH_DIR",
+    "QC_POLL_INTERVAL",
+    "QC_WATCH_DIRS",
+    "R2_PUBLIC_URL",
+    "RATE_LIMIT_MAX",
+    "RATE_LIMIT_WINDOW_MS",
+    "RCLONE_REMOTE",
+    "SECURITY_ALERT_EMAIL",
+    "SMTP_FROM",
+    "SMTP_PORT",
+    "STAGING_ROOT",
+    "TRANSCRIPTION_PATH",
+    "UPLOADS_DIR",
+    "UPLOAD_PORTAL_DIR",
+    "WEBAUTHN_ORIGIN",
+    "WEBAUTHN_RP_ID",
+    "WEBAUTHN_RP_NAME",
+    "WHATSAPP_AUTHORIZED_NUMBERS",
+    "WHATSAPP_BUSINESS_ACCOUNT_ID",
+    "WHATSAPP_WEBHOOK_VERIFY_TOKEN"
   ],
-
   "services": {
     "OPENAI_API_KEY": {
       "name": "OpenAI",
@@ -406,7 +467,6 @@
       "notes": "Repos privados gratis."
     }
   },
-
   "ghost_services": [
     {
       "name": "Stability AI / Stable Diffusion",
@@ -417,7 +477,6 @@
       "search_terms": "stable diffusion stability dreamstudio"
     }
   ],
-
   "extra_services": [
     {
       "name": "Cursor IDE",
@@ -441,7 +500,9 @@
       "action_label": "Revisar VM",
       "notes": "VM con CDR-Flow. Verificar si corre 24/7.",
       "search_terms": "google cloud gcp vm compute",
-      "projects": ["cdr-flow"]
+      "projects": [
+        "cdr-flow"
+      ]
     },
     {
       "name": "Railway",
@@ -453,7 +514,9 @@
       "action_label": "Verificar plan",
       "notes": "Deploy webhook contenido-locutora. Si no se usa, pausar.",
       "search_terms": "railway hosting deploy",
-      "projects": ["natalia"]
+      "projects": [
+        "natalia"
+      ]
     },
     {
       "name": "Media Shuttle (Signiant)",
@@ -465,7 +528,9 @@
       "action_label": "Revisar contrato",
       "notes": "api.mediashuttle.com en UI. Verificar si es contrato propio o de cliente.",
       "search_terms": "signiant media shuttle file transfer",
-      "projects": ["cdr-flow"]
+      "projects": [
+        "cdr-flow"
+      ]
     },
     {
       "name": "APIs tipo de cambio",
@@ -477,7 +542,110 @@
       "action_label": "OK",
       "notes": "BCRA, DolarAPI.com, mindicador.cl. Públicas sin key.",
       "search_terms": "bcra dolar api tipo cambio exchange rate",
-      "projects": ["consolidado"]
+      "projects": [
+        "consolidado"
+      ]
     }
-  ]
+  ],
+  "allocation_weights": {
+    "OPENAI_API_KEY": {
+      "cdr-flow": 45,
+      "c2b": 15,
+      "natalia": 25,
+      "metegol": 5,
+      "notif": 5,
+      "payroll": 3,
+      "consolidado": 2
+    },
+    "GOOGLE_API_KEY": {
+      "cdr-flow": 30,
+      "c2b": 20,
+      "natalia": 10,
+      "metegol": 20,
+      "notif": 5,
+      "payroll": 5,
+      "consolidado": 10
+    },
+    "MONDAY_API_TOKEN": {
+      "cdr-flow": 50,
+      "natalia": 15,
+      "notif": 15,
+      "payroll": 15,
+      "c2b": 5
+    },
+    "SUPABASE_URL": {
+      "cdr-flow": 70,
+      "c2b": 20,
+      "natalia": 10
+    },
+    "CF_R2_ACCESS_KEY_ID": {
+      "cdr-flow": 80,
+      "metegol": 20
+    },
+    "CF_STREAM_API_TOKEN": {
+      "cdr-flow": 100
+    },
+    "WHATSAPP_API_KEY": {
+      "natalia": 70,
+      "cdr-flow": 30
+    },
+    "IDEogram_API_KEY": {
+      "metegol": 80,
+      "c2b": 20
+    },
+    "FAL_KEY": {
+      "metegol": 90,
+      "c2b": 10
+    },
+    "KLING_API_KEY": {
+      "metegol": 100
+    },
+    "LAYER_API_TOKEN": {
+      "metegol": 100
+    },
+    "RUNWAY_API_KEY": {
+      "metegol": 100
+    },
+    "APOLLO_API_KEY": {
+      "c2b": 100
+    },
+    "SMARTLEAD_API_KEY": {
+      "c2b": 100
+    },
+    "ZEROBOUNCE_API_KEY": {
+      "c2b": 100
+    },
+    "LINKEDIN_AUTOMATION_API_KEY": {
+      "c2b": 100
+    },
+    "GOOGLE_ADS_DEVELOPER_TOKEN": {
+      "c2b": 100
+    },
+    "META_ADS_ACCESS_TOKEN": {
+      "c2b": 100
+    },
+    "LUCIDLINK_API_KEY": {
+      "cdr-flow": 100
+    },
+    "extra-cursor-ide": {
+      "cdr-flow": 30,
+      "c2b": 20,
+      "natalia": 15,
+      "metegol": 15,
+      "notif": 8,
+      "payroll": 7,
+      "consolidado": 5
+    },
+    "extra-google-cloud-(gcp)": {
+      "cdr-flow": 85,
+      "notif": 10,
+      "payroll": 5
+    },
+    "extra-railway": {
+      "natalia": 100
+    },
+    "extra-media-shuttle-(signiant)": {
+      "cdr-flow": 100
+    }
+  }
 }

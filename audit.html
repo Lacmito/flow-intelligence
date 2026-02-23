@@ -128,7 +128,7 @@
 <div class="top-bar">
   <div>
     <h1>FLOW Intelligence</h1>
-    <p class="subtitle">Cost Dashboard &mdash; Scan: 22/02/2026 20:16 &mdash; Click en cualquier costo o nota para editar</p>
+    <p class="subtitle">Cost Dashboard &mdash; Scan: 22/02/2026 20:58 &mdash; Click en cualquier costo o nota para editar</p>
   </div>
   <div class="top-actions">
     <button class="btn btn-primary" onclick="rescan()">Re-escanear</button>
@@ -208,10 +208,11 @@
 
 <script>
 // Data injected by scan.py
-const SCAN_DATA = [{"id": "ghost-stability-ai---stable-diffusion", "name": "Stability AI / Stable Diffusion", "type": "Image generation", "category": "ai", "cost_model": "ghost", "cost_estimate": "US$30/mes", "action": "cancel", "action_label": "CANCELAR YA", "notes": "COBRO FANTASMA. No se usa en ningún proyecto. SDXL se usa via Layer.ai. Cancelar en platform.stability.ai.", "env_var": "", "projects": [], "search": "stable diffusion stability dreamstudio"}, {"id": "APOLLO_API_KEY", "name": "Apollo.io", "type": "Lead generation", "category": "sales", "cost_model": "paid", "cost_estimate": "$49-99/mes", "action": "downgrade", "action_label": "Bajar a free", "notes": "Free: 50 emails/mes. Sin prospección activa, alcanza.", "env_var": "APOLLO_API_KEY", "projects": ["c2b"], "search": "apollo.io apollo_api_key"}, {"id": "CF_R2_ACCESS_KEY_ID", "name": "Cloudflare R2", "type": "Object storage (S3)", "category": "cloud", "cost_model": "freemium", "cost_estimate": "$0 si <10GB", "action": "review", "action_label": "Revisar storage", "notes": "Free: 10GB + 10M req/mes.", "env_var": "CF_R2_ACCESS_KEY_ID", "projects": ["cdr-flow"], "search": "cloudflare r2 cf_r2_access_key_id"}, {"id": "CF_STREAM_API_TOKEN", "name": "Cloudflare Stream", "type": "Video hosting", "category": "cloud", "cost_model": "paid", "cost_estimate": "$1/1K min", "action": "review", "action_label": "Revisar minutos", "notes": "Sin free tier real.", "env_var": "CF_STREAM_API_TOKEN", "projects": ["cdr-flow"], "search": "cloudflare stream cf_stream_api_token"}, {"id": "FAL_KEY", "name": "Fal.ai (FLUX)", "type": "Image generation", "category": "ai", "cost_model": "usage", "cost_estimate": "Variable", "action": "check", "action_label": "Verificar saldo", "notes": "FLUX pro image gen. Pago por uso.", "env_var": "FAL_KEY", "projects": ["metegol"], "search": "fal.ai (flux) fal_key"}, {"id": "GITHUB_BACKUP_TOKEN", "name": "GitHub (backup)", "type": "Code backup", "category": "other", "cost_model": "free", "cost_estimate": "$0", "action": "keep", "action_label": "OK", "notes": "Repos privados gratis.", "env_var": "GITHUB_BACKUP_TOKEN", "projects": ["cdr-flow"], "search": "github (backup) github_backup_token"}, {"id": "SMTP_HOST", "name": "Gmail SMTP / API", "type": "Email sending", "category": "comm", "cost_model": "free", "cost_estimate": "$0", "action": "keep", "action_label": "OK", "notes": "Incluido en Google Workspace.", "env_var": "SMTP_HOST", "projects": ["cdr-flow"], "search": "gmail smtp / api smtp_host"}, {"id": "GOOGLE_DRIVE_FOLDER_ID", "name": "Google Drive API", "type": "File storage", "category": "google", "cost_model": "free", "cost_estimate": "$0", "action": "keep", "action_label": "OK", "notes": "API gratuita.", "env_var": "GOOGLE_DRIVE_FOLDER_ID", "projects": ["natalia"], "search": "google drive api google_drive_folder_id"}, {"id": "GOOGLE_API_KEY", "name": "Google Gemini", "type": "LLM + Image gen", "category": "ai", "cost_model": "freemium", "cost_estimate": "$0 (free tier)", "action": "check", "action_label": "Verificar consumo", "notes": "Free: 60 req/min. Pago solo si excedés cuota.", "env_var": "GOOGLE_API_KEY", "projects": ["metegol"], "search": "google gemini google_api_key"}, {"id": "GOOGLE_CLIENT_ID", "name": "Google OAuth", "type": "Login", "category": "google", "cost_model": "free", "cost_estimate": "$0", "action": "keep", "action_label": "OK", "notes": "Autenticación gratuita.", "env_var": "GOOGLE_CLIENT_ID", "projects": ["cdr-flow"], "search": "google oauth google_client_id"}, {"id": "SHEET_ID", "name": "Google Sheets API", "type": "Spreadsheets", "category": "google", "cost_model": "free", "cost_estimate": "$0", "action": "keep", "action_label": "OK", "notes": "API gratuita.", "env_var": "SHEET_ID", "projects": ["notif"], "search": "google sheets api sheet_id"}, {"id": "KLING_API_KEY", "name": "Kling AI", "type": "Video generation", "category": "ai", "cost_model": "usage", "cost_estimate": "Variable", "action": "check", "action_label": "Verificar saldo", "notes": "Video gen para branding. Verificar créditos.", "env_var": "KLING_API_KEY", "projects": ["metegol"], "search": "kling ai kling_api_key"}, {"id": "LAYER_API_TOKEN", "name": "Layer.ai", "type": "Custom AI models (SDXL)", "category": "ai", "cost_model": "usage", "cost_estimate": "Variable", "action": "check", "action_label": "Verificar plan", "notes": "Custom model SDXL via Layer.ai.", "env_var": "LAYER_API_TOKEN", "projects": ["metegol"], "search": "layer.ai layer_api_token"}, {"id": "LUCIDLINK_API_KEY", "name": "LucidLink", "type": "Cloud filesystem", "category": "media", "cost_model": "paid", "cost_estimate": "Variable", "action": "keep", "action_label": "Mantener (core)", "notes": "Core para workflow de media.", "env_var": "LUCIDLINK_API_KEY", "projects": ["cdr-flow"], "search": "lucidlink lucidlink_api_key"}, {"id": "MONDAY_API_TOKEN", "name": "Monday.com", "type": "PM + Boards + Webhooks", "category": "pm", "cost_model": "paid", "cost_estimate": "$9-19/seat/mes", "action": "review", "action_label": "Revisar seats", "notes": "Core para workflow. Revisar cuántos seats pagás.", "env_var": "MONDAY_API_TOKEN", "projects": ["cdr-flow"], "search": "monday.com monday_api_token"}, {"id": "OPENAI_API_KEY", "name": "OpenAI", "type": "LLM + Whisper + DALL-E", "category": "ai", "cost_model": "usage", "cost_estimate": "Variable", "action": "review", "action_label": "Revisar billing", "notes": "Verificar si todos los proyectos usan la misma key. Revisar consumo en platform.openai.com.", "env_var": "OPENAI_API_KEY", "projects": ["c2b", "metegol", "natalia", "cdr-flow"], "search": "openai openai_api_key"}, {"id": "REDIS_URL", "name": "Redis", "type": "Cache", "category": "cloud", "cost_model": "free", "cost_estimate": "$0", "action": "keep", "action_label": "OK", "notes": "Docker local.", "env_var": "REDIS_URL", "projects": ["c2b"], "search": "redis redis_url"}, {"id": "SMARTLEAD_API_KEY", "name": "Smartlead", "type": "Cold email automation", "category": "sales", "cost_model": "paid", "cost_estimate": "$39-94/mes", "action": "downgrade", "action_label": "Pausar", "notes": "Si no hay campañas de cold email activas, pausar.", "env_var": "SMARTLEAD_API_KEY", "projects": ["c2b"], "search": "smartlead smartlead_api_key"}, {"id": "SUPABASE_URL", "name": "Supabase", "type": "DB + Auth", "category": "cloud", "cost_model": "freemium", "cost_estimate": "$0-25/mes", "action": "check", "action_label": "Verificar plan", "notes": "Free: 500MB DB, 1GB storage.", "env_var": "SUPABASE_URL", "projects": ["c2b"], "search": "supabase supabase_url"}, {"id": "WHATSAPP_API_KEY", "name": "WhatsApp Business API", "type": "Messaging", "category": "comm", "cost_model": "usage", "cost_estimate": "$0 (1K conv free)", "action": "check", "action_label": "Verificar consumo", "notes": "1000 conversaciones/mes gratis.", "env_var": "WHATSAPP_API_KEY", "projects": ["natalia"], "search": "whatsapp business api whatsapp_api_key"}, {"id": "ZEROBOUNCE_API_KEY", "name": "ZeroBounce", "type": "Email verification", "category": "sales", "cost_model": "freemium", "cost_estimate": "$0-16/mes", "action": "downgrade", "action_label": "Bajar a free", "notes": "Free: 100 verificaciones/mes.", "env_var": "ZEROBOUNCE_API_KEY", "projects": ["c2b"], "search": "zerobounce zerobounce_api_key"}, {"id": "extra-cursor-ide", "name": "Cursor IDE", "type": "IDE / AI coding", "category": "other", "cost_model": "paid", "cost_estimate": "$20/mes (Pro)", "action": "keep", "action_label": "Mantener", "notes": "IDE principal para todos los proyectos. Aparece como 'ENSTIL AI' en el extracto bancario. Empresa: Anysphere Inc.", "env_var": "", "projects": ["cdr-flow", "c2b", "natalia", "metegol", "notif", "payroll", "consolidado"], "search": "cursor enstil anysphere ide editor", "enstil": true}, {"id": "extra-google-cloud-(gcp)", "name": "Google Cloud (GCP)", "type": "VM hosting", "category": "cloud", "cost_model": "usage", "cost_estimate": "Variable", "action": "review", "action_label": "Revisar VM", "notes": "VM con CDR-Flow. Verificar si corre 24/7.", "env_var": "", "projects": ["cdr-flow"], "search": "google cloud gcp vm compute", "enstil": false}, {"id": "extra-railway", "name": "Railway", "type": "App hosting", "category": "cloud", "cost_model": "freemium", "cost_estimate": "$0-5+/mes", "action": "check", "action_label": "Verificar plan", "notes": "Deploy webhook contenido-locutora. Si no se usa, pausar.", "env_var": "", "projects": ["natalia"], "search": "railway hosting deploy", "enstil": false}, {"id": "extra-media-shuttle-(signiant)", "name": "Media Shuttle (Signiant)", "type": "File transfer", "category": "media", "cost_model": "paid", "cost_estimate": "Enterprise", "action": "review", "action_label": "Revisar contrato", "notes": "api.mediashuttle.com en UI. Verificar si es contrato propio o de cliente.", "env_var": "", "projects": ["cdr-flow"], "search": "signiant media shuttle file transfer", "enstil": false}, {"id": "extra-apis-tipo-de-cambio", "name": "APIs tipo de cambio", "type": "FX rates", "category": "other", "cost_model": "free", "cost_estimate": "$0", "action": "keep", "action_label": "OK", "notes": "BCRA, DolarAPI.com, mindicador.cl. Públicas sin key.", "env_var": "", "projects": ["consolidado"], "search": "bcra dolar api tipo cambio exchange rate", "enstil": false}];
+const SCAN_DATA = [{"id": "ghost-stability-ai---stable-diffusion", "name": "Stability AI / Stable Diffusion", "type": "Image generation", "category": "ai", "cost_model": "ghost", "cost_estimate": "US$30/mes", "action": "cancel", "action_label": "CANCELAR YA", "notes": "COBRO FANTASMA. No se usa en ningún proyecto. SDXL se usa via Layer.ai. Cancelar en platform.stability.ai.", "env_var": "", "projects": [], "search": "stable diffusion stability dreamstudio"}, {"id": "APOLLO_API_KEY", "name": "Apollo.io", "type": "Lead generation", "category": "sales", "cost_model": "paid", "cost_estimate": "$49-99/mes", "action": "downgrade", "action_label": "Bajar a free", "notes": "Free: 50 emails/mes. Sin prospección activa, alcanza.", "env_var": "APOLLO_API_KEY", "projects": ["c2b"], "search": "apollo.io apollo_api_key"}, {"id": "CF_R2_ACCESS_KEY_ID", "name": "Cloudflare R2", "type": "Object storage (S3)", "category": "cloud", "cost_model": "freemium", "cost_estimate": "$0 si <10GB", "action": "review", "action_label": "Revisar storage", "notes": "Free: 10GB + 10M req/mes.", "env_var": "CF_R2_ACCESS_KEY_ID", "projects": ["cdr-flow"], "search": "cloudflare r2 cf_r2_access_key_id"}, {"id": "CF_STREAM_API_TOKEN", "name": "Cloudflare Stream", "type": "Video hosting", "category": "cloud", "cost_model": "paid", "cost_estimate": "$1/1K min", "action": "review", "action_label": "Revisar minutos", "notes": "Sin free tier real.", "env_var": "CF_STREAM_API_TOKEN", "projects": ["cdr-flow"], "search": "cloudflare stream cf_stream_api_token"}, {"id": "FAL_KEY", "name": "Fal.ai (FLUX)", "type": "Image generation", "category": "ai", "cost_model": "usage", "cost_estimate": "Variable", "action": "check", "action_label": "Verificar saldo", "notes": "FLUX pro image gen. Pago por uso.", "env_var": "FAL_KEY", "projects": ["metegol"], "search": "fal.ai (flux) fal_key"}, {"id": "GITHUB_BACKUP_TOKEN", "name": "GitHub (backup)", "type": "Code backup", "category": "other", "cost_model": "free", "cost_estimate": "$0", "action": "keep", "action_label": "OK", "notes": "Repos privados gratis.", "env_var": "GITHUB_BACKUP_TOKEN", "projects": ["cdr-flow"], "search": "github (backup) github_backup_token"}, {"id": "SMTP_HOST", "name": "Gmail SMTP / API", "type": "Email sending", "category": "comm", "cost_model": "free", "cost_estimate": "$0", "action": "keep", "action_label": "OK", "notes": "Incluido en Google Workspace.", "env_var": "SMTP_HOST", "projects": ["cdr-flow"], "search": "gmail smtp / api smtp_host"}, {"id": "GOOGLE_DRIVE_FOLDER_ID", "name": "Google Drive API", "type": "File storage", "category": "google", "cost_model": "free", "cost_estimate": "$0", "action": "keep", "action_label": "OK", "notes": "API gratuita.", "env_var": "GOOGLE_DRIVE_FOLDER_ID", "projects": ["natalia"], "search": "google drive api google_drive_folder_id"}, {"id": "GOOGLE_API_KEY", "name": "Google Gemini", "type": "LLM + Image gen", "category": "ai", "cost_model": "freemium", "cost_estimate": "$0 (free tier)", "action": "check", "action_label": "Verificar consumo", "notes": "Free: 60 req/min. Pago solo si excedés cuota.", "env_var": "GOOGLE_API_KEY", "projects": ["metegol"], "search": "google gemini google_api_key"}, {"id": "GOOGLE_CLIENT_ID", "name": "Google OAuth", "type": "Login", "category": "google", "cost_model": "free", "cost_estimate": "$0", "action": "keep", "action_label": "OK", "notes": "Autenticación gratuita.", "env_var": "GOOGLE_CLIENT_ID", "projects": ["cdr-flow"], "search": "google oauth google_client_id"}, {"id": "SHEET_ID", "name": "Google Sheets API", "type": "Spreadsheets", "category": "google", "cost_model": "free", "cost_estimate": "$0", "action": "keep", "action_label": "OK", "notes": "API gratuita.", "env_var": "SHEET_ID", "projects": ["notif"], "search": "google sheets api sheet_id"}, {"id": "KLING_API_KEY", "name": "Kling AI", "type": "Video generation", "category": "ai", "cost_model": "usage", "cost_estimate": "Variable", "action": "check", "action_label": "Verificar saldo", "notes": "Video gen para branding. Verificar créditos.", "env_var": "KLING_API_KEY", "projects": ["metegol"], "search": "kling ai kling_api_key"}, {"id": "LAYER_API_TOKEN", "name": "Layer.ai", "type": "Custom AI models (SDXL)", "category": "ai", "cost_model": "usage", "cost_estimate": "Variable", "action": "check", "action_label": "Verificar plan", "notes": "Custom model SDXL via Layer.ai.", "env_var": "LAYER_API_TOKEN", "projects": ["metegol"], "search": "layer.ai layer_api_token"}, {"id": "LUCIDLINK_API_KEY", "name": "LucidLink", "type": "Cloud filesystem", "category": "media", "cost_model": "paid", "cost_estimate": "Variable", "action": "keep", "action_label": "Mantener (core)", "notes": "Core para workflow de media.", "env_var": "LUCIDLINK_API_KEY", "projects": ["cdr-flow"], "search": "lucidlink lucidlink_api_key"}, {"id": "MONDAY_API_TOKEN", "name": "Monday.com", "type": "PM + Boards + Webhooks", "category": "pm", "cost_model": "paid", "cost_estimate": "$9-19/seat/mes", "action": "review", "action_label": "Revisar seats", "notes": "Core para workflow. Revisar cuántos seats pagás.", "env_var": "MONDAY_API_TOKEN", "projects": ["cdr-flow"], "search": "monday.com monday_api_token"}, {"id": "OPENAI_API_KEY", "name": "OpenAI", "type": "LLM + Whisper + DALL-E", "category": "ai", "cost_model": "usage", "cost_estimate": "Variable", "action": "review", "action_label": "Revisar billing", "notes": "Verificar si todos los proyectos usan la misma key. Revisar consumo en platform.openai.com.", "env_var": "OPENAI_API_KEY", "projects": ["natalia", "metegol", "cdr-flow", "c2b"], "search": "openai openai_api_key"}, {"id": "REDIS_URL", "name": "Redis", "type": "Cache", "category": "cloud", "cost_model": "free", "cost_estimate": "$0", "action": "keep", "action_label": "OK", "notes": "Docker local.", "env_var": "REDIS_URL", "projects": ["c2b"], "search": "redis redis_url"}, {"id": "SMARTLEAD_API_KEY", "name": "Smartlead", "type": "Cold email automation", "category": "sales", "cost_model": "paid", "cost_estimate": "$39-94/mes", "action": "downgrade", "action_label": "Pausar", "notes": "Si no hay campañas de cold email activas, pausar.", "env_var": "SMARTLEAD_API_KEY", "projects": ["c2b"], "search": "smartlead smartlead_api_key"}, {"id": "SUPABASE_URL", "name": "Supabase", "type": "DB + Auth", "category": "cloud", "cost_model": "freemium", "cost_estimate": "$0-25/mes", "action": "check", "action_label": "Verificar plan", "notes": "Free: 500MB DB, 1GB storage.", "env_var": "SUPABASE_URL", "projects": ["c2b"], "search": "supabase supabase_url"}, {"id": "WHATSAPP_API_KEY", "name": "WhatsApp Business API", "type": "Messaging", "category": "comm", "cost_model": "usage", "cost_estimate": "$0 (1K conv free)", "action": "check", "action_label": "Verificar consumo", "notes": "1000 conversaciones/mes gratis.", "env_var": "WHATSAPP_API_KEY", "projects": ["natalia"], "search": "whatsapp business api whatsapp_api_key"}, {"id": "ZEROBOUNCE_API_KEY", "name": "ZeroBounce", "type": "Email verification", "category": "sales", "cost_model": "freemium", "cost_estimate": "$0-16/mes", "action": "downgrade", "action_label": "Bajar a free", "notes": "Free: 100 verificaciones/mes.", "env_var": "ZEROBOUNCE_API_KEY", "projects": ["c2b"], "search": "zerobounce zerobounce_api_key"}, {"id": "extra-cursor-ide", "name": "Cursor IDE", "type": "IDE / AI coding", "category": "other", "cost_model": "paid", "cost_estimate": "$20/mes (Pro)", "action": "keep", "action_label": "Mantener", "notes": "IDE principal para todos los proyectos. Aparece como 'ENSTIL AI' en el extracto bancario. Empresa: Anysphere Inc.", "env_var": "", "projects": ["cdr-flow", "c2b", "natalia", "metegol", "notif", "payroll", "consolidado"], "search": "cursor enstil anysphere ide editor", "enstil": true}, {"id": "extra-google-cloud-(gcp)", "name": "Google Cloud (GCP)", "type": "VM hosting", "category": "cloud", "cost_model": "usage", "cost_estimate": "Variable", "action": "review", "action_label": "Revisar VM", "notes": "VM con CDR-Flow. Verificar si corre 24/7.", "env_var": "", "projects": ["cdr-flow"], "search": "google cloud gcp vm compute", "enstil": false}, {"id": "extra-railway", "name": "Railway", "type": "App hosting", "category": "cloud", "cost_model": "freemium", "cost_estimate": "$0-5+/mes", "action": "check", "action_label": "Verificar plan", "notes": "Deploy webhook contenido-locutora. Si no se usa, pausar.", "env_var": "", "projects": ["natalia"], "search": "railway hosting deploy", "enstil": false}, {"id": "extra-media-shuttle-(signiant)", "name": "Media Shuttle (Signiant)", "type": "File transfer", "category": "media", "cost_model": "paid", "cost_estimate": "Enterprise", "action": "review", "action_label": "Revisar contrato", "notes": "api.mediashuttle.com en UI. Verificar si es contrato propio o de cliente.", "env_var": "", "projects": ["cdr-flow"], "search": "signiant media shuttle file transfer", "enstil": false}, {"id": "extra-apis-tipo-de-cambio", "name": "APIs tipo de cambio", "type": "FX rates", "category": "other", "cost_model": "free", "cost_estimate": "$0", "action": "keep", "action_label": "OK", "notes": "BCRA, DolarAPI.com, mindicador.cl. Públicas sin key.", "env_var": "", "projects": ["consolidado"], "search": "bcra dolar api tipo cambio exchange rate", "enstil": false}];
 const PROJECTS = [{"id": "cdr-flow", "name": "CDR-Flow (Traductores Payroll)", "tag_class": "proj-cdr", "tag_label": "CDR-Flow", "description": "Plataforma principal: payroll, proyectos, facturación, estudio, PM inbox, bridge-agent", "path": "/Users/lacmito/CDR Admin/Traductores Payroll", "exists": true, "client": "Sin cliente", "billable": false, "env_count": 81, "npm_count": 29, "pip_count": 0}, {"id": "c2b", "name": "c2b-revenue-engine", "tag_class": "proj-c2b", "tag_label": "c2b", "description": "Motor de ventas/marketing: lead gen, cold email, ads, AI content", "path": "/Users/lacmito/CURSOR - Apps/c2b-revenue-engine", "exists": true, "client": "Sin cliente", "billable": false, "env_count": 14, "npm_count": 10, "pip_count": 17}, {"id": "natalia", "name": "Natalia Rosminati CM-SEO", "tag_class": "proj-nat", "tag_label": "Natalia", "description": "Content gen: WhatsApp audio → Whisper → ChatGPT → Monday + email", "path": "/Users/lacmito/CURSOR - Apps/Natalia Rosminati CM-SEO", "exists": true, "client": "Sin cliente", "billable": false, "env_count": 20, "npm_count": 0, "pip_count": 11}, {"id": "metegol", "name": "Metegol", "tag_class": "proj-met", "tag_label": "Metegol", "description": "ESP32 firmware + branding pipeline AI + bridge serial→Resolume", "path": "/Users/lacmito/Metegol", "exists": true, "client": "Sin cliente", "billable": false, "env_count": 11, "npm_count": 0, "pip_count": 7}, {"id": "notif", "name": "CDR Notificaciones", "tag_class": "proj-notif", "tag_label": "Notif", "description": "Emails de pago, sync Google Sheets, webhook ManyChat", "path": "/Users/lacmito/CDR Admin/CDR notificaaciones", "exists": true, "client": "Sin cliente", "billable": false, "env_count": 1, "npm_count": 0, "pip_count": 7}, {"id": "payroll", "name": "PAYROLL", "tag_class": "proj-pay", "tag_label": "Payroll", "description": "Pipeline payroll: Monday export (XLSX) → OSA payroll", "path": "/Users/lacmito/CDR Admin/PAYROLL", "exists": true, "client": "Sin cliente", "billable": false, "env_count": 0, "npm_count": 0, "pip_count": 0}, {"id": "consolidado", "name": "AAA_Consolidado", "tag_class": "proj-cons", "tag_label": "Consol", "description": "Reportes consolidados y tipos de cambio", "path": "/Users/lacmito/CDR Admin/AAA_Consolidado", "exists": true, "client": "Sin cliente", "billable": false, "env_count": 0, "npm_count": 0, "pip_count": 0}];
 const DIFF = {"new_services": [], "removed_services": [], "new_vars": [], "new_projects": [], "removed_projects": []};
 const NEW_VARS = [];
+const DEFAULT_WEIGHTS = {"OPENAI_API_KEY": {"cdr-flow": 45, "c2b": 15, "natalia": 25, "metegol": 5, "notif": 5, "payroll": 3, "consolidado": 2}, "GOOGLE_API_KEY": {"cdr-flow": 30, "c2b": 20, "natalia": 10, "metegol": 20, "notif": 5, "payroll": 5, "consolidado": 10}, "MONDAY_API_TOKEN": {"cdr-flow": 50, "natalia": 15, "notif": 15, "payroll": 15, "c2b": 5}, "SUPABASE_URL": {"cdr-flow": 70, "c2b": 20, "natalia": 10}, "CF_R2_ACCESS_KEY_ID": {"cdr-flow": 80, "metegol": 20}, "CF_STREAM_API_TOKEN": {"cdr-flow": 100}, "WHATSAPP_API_KEY": {"natalia": 70, "cdr-flow": 30}, "IDEogram_API_KEY": {"metegol": 80, "c2b": 20}, "FAL_KEY": {"metegol": 90, "c2b": 10}, "KLING_API_KEY": {"metegol": 100}, "LAYER_API_TOKEN": {"metegol": 100}, "RUNWAY_API_KEY": {"metegol": 100}, "APOLLO_API_KEY": {"c2b": 100}, "SMARTLEAD_API_KEY": {"c2b": 100}, "ZEROBOUNCE_API_KEY": {"c2b": 100}, "LINKEDIN_AUTOMATION_API_KEY": {"c2b": 100}, "GOOGLE_ADS_DEVELOPER_TOKEN": {"c2b": 100}, "META_ADS_ACCESS_TOKEN": {"c2b": 100}, "LUCIDLINK_API_KEY": {"cdr-flow": 100}, "extra-cursor-ide": {"cdr-flow": 30, "c2b": 20, "natalia": 15, "metegol": 15, "notif": 8, "payroll": 7, "consolidado": 5}, "extra-google-cloud-(gcp)": {"cdr-flow": 85, "notif": 10, "payroll": 5}, "extra-railway": {"natalia": 100}, "extra-media-shuttle-(signiant)": {"cdr-flow": 100}};
 
 const API_BASE = window.location.origin;
 let feedback = { services: {} };
@@ -265,7 +266,6 @@ async function saveFeedback(serviceId, data) {
       if (!feedback.services) feedback.services = {};
       if (!feedback.services[serviceId]) feedback.services[serviceId] = {};
       Object.assign(feedback.services[serviceId], data);
-      localStorage.setItem('flow_feedback', JSON.stringify(feedback));
       showSaved();
       renderSummary();
       renderCostBar();
@@ -276,8 +276,6 @@ async function saveFeedback(serviceId, data) {
     Object.assign(feedback.services[serviceId], data);
     localStorage.setItem('flow_feedback', JSON.stringify(feedback));
     showSaved();
-    renderSummary();
-    renderCostBar();
   }
 }
 
@@ -628,6 +626,189 @@ function exportFeedback() {
   a.click();
   URL.revokeObjectURL(url);
 }
+
+// ========== BILLING MODULE (injected by scan.py) ==========
+// FLOW Intelligence - Billing / Cost Allocation Module
+
+var PROJ_COLORS = {};
+PROJECTS.forEach(function(p) {
+  var cm = { 'proj-cdr':'#fb923c','proj-c2b':'#38bdf8','proj-nat':'#f472b6','proj-met':'#4ade80','proj-notif':'#a78bfa','proj-pay':'#fbbf24','proj-cons':'#22d3ee' };
+  PROJ_COLORS[p.id] = cm[p.tag_class] || '#94a3b8';
+});
+
+function getWeights(svcId, projIds) {
+  var fb = getSvcFeedback(svcId);
+  if (fb.weights && Object.keys(fb.weights).length > 0) return fb.weights;
+  if (typeof DEFAULT_WEIGHTS !== 'undefined' && DEFAULT_WEIGHTS[svcId]) return DEFAULT_WEIGHTS[svcId];
+  var w = {};
+  projIds.forEach(function(pid) { w[pid] = Math.round(100 / projIds.length); });
+  return w;
+}
+
+function computeBilling() {
+  var pc = {};
+  PROJECTS.forEach(function(p) { pc[p.id] = { project: p, services: [], total: 0 }; });
+  pc['_none'] = { project: { id:'_none', name:'Sin proyecto', tag_label:'N/A', tag_class:'proj-none', client:'-', billable:false }, services: [], total: 0 };
+
+  SCAN_DATA.forEach(function(svc) {
+    var cost = getEffectiveCost(svc);
+    var pr = svc.projects || [];
+    if (pr.length === 0) {
+      pc['_none'].services.push({ id: svc.id, name: svc.name, cost: cost, share: cost, pct: 100, category: svc.category });
+      pc['_none'].total += cost;
+      return;
+    }
+    var w = getWeights(svc.id, pr);
+    var totalW = 0;
+    pr.forEach(function(pid) { totalW += (w[pid] || 0); });
+    if (totalW === 0) totalW = 100;
+
+    pr.forEach(function(pid) {
+      if (!pc[pid]) return;
+      var pct = (w[pid] || 0);
+      var share = cost * pct / totalW;
+      pc[pid].services.push({
+        id: svc.id, name: svc.name, cost: cost, share: share,
+        pct: Math.round(pct * 100 / totalW), category: svc.category,
+        shared: pr.length > 1, projCount: pr.length
+      });
+      pc[pid].total += share;
+    });
+  });
+  return pc;
+}
+
+function renderBilling() {
+  var billing = computeBilling();
+  var totalBillable = 0, totalInternal = 0;
+  PROJECTS.forEach(function(p) {
+    var b = billing[p.id];
+    if (p.billable) totalBillable += b.total; else totalInternal += b.total;
+  });
+  var realTotal = SCAN_DATA.reduce(function(s, svc) { return s + getEffectiveCost(svc); }, 0);
+
+  var sumEl = document.getElementById('billingSummary');
+  if (!sumEl) return;
+
+  sumEl.innerHTML =
+    '<div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap">' +
+    '<h2 style="margin:0;font-size:1rem;color:var(--accent)">Resumen de facturaci\u00f3n</h2>' +
+    '<span style="font-size:0.78rem;color:var(--muted)">Click en el % para editar la asignaci\u00f3n</span></div>' +
+    '<div class="billing-summary-grid">' +
+    '<div class="billing-summary-item"><div class="number" style="color:var(--red)">$' + realTotal.toFixed(0) + '</div><div class="label">Gasto total/mes</div></div>' +
+    '<div class="billing-summary-item"><div class="number" style="color:var(--green)">$' + totalBillable.toFixed(0) + '</div><div class="label">Facturable a clientes</div></div>' +
+    '<div class="billing-summary-item"><div class="number" style="color:var(--yellow)">$' + totalInternal.toFixed(0) + '</div><div class="label">Costo interno</div></div>' +
+    '<div class="billing-summary-item"><div class="number" style="color:var(--muted)">$' + billing['_none'].total.toFixed(0) + '</div><div class="label">Sin asignar</div></div></div>';
+
+  var projectOrder = PROJECTS.filter(function(p) { return billing[p.id].services.length > 0; })
+    .sort(function(a, b) { return billing[b.id].total - billing[a.id].total; });
+
+  var gh = '';
+  projectOrder.forEach(function(p) {
+    var b = billing[p.id];
+    var color = PROJ_COLORS[p.id] || '#94a3b8';
+    var bt = p.billable
+      ? '<span class="billing-badge-billable">FACTURABLE</span>'
+      : '<span class="billing-badge-internal">INTERNO</span>';
+
+    var sh = b.services.sort(function(a, bb) { return bb.share - a.share; }).map(function(s) {
+      var pctHtml;
+      if (s.shared) {
+        pctHtml = '<span class="editable" onclick="editWeight(\'' + s.id + '\',\'' + p.id + '\')" ' +
+          'style="color:var(--accent);font-size:0.68rem;cursor:pointer;border-bottom:1px dashed rgba(56,189,248,0.4)" ' +
+          'title="Click para editar asignaci\u00f3n">' + s.pct + '%</span>';
+      } else {
+        pctHtml = '<span style="font-size:0.68rem;color:var(--muted)">100%</span>';
+      }
+      var catDot = '<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:' +
+        (CATEGORY_COLORS[s.category] || '#94a3b8') + ';margin-right:4px"></span>';
+      return '<div class="billing-svc-row">' +
+        '<span class="billing-svc-name">' + catDot + s.name + ' ' + pctHtml + '</span>' +
+        '<span class="billing-svc-cost" style="color:' + color + '">$' + s.share.toFixed(0) + '</span></div>';
+    }).join('');
+
+    gh += '<div class="billing-card">' +
+      '<div class="billing-card-header">' +
+      '<h3><span class="proj-tag ' + p.tag_class + '">' + p.tag_label + '</span> ' + p.name + '</h3>' +
+      '<div class="billing-card-total" style="color:' + color + '">$' + b.total.toFixed(0) + '/mes</div></div>' +
+      '<div class="billing-card-client">' + bt + ' Cliente: <strong>' + p.client + '</strong></div>' +
+      sh + '</div>';
+  });
+
+  if (billing['_none'].services.length > 0) {
+    var ns = billing['_none'].services.sort(function(a, b) { return b.cost - a.cost; }).map(function(s) {
+      return '<div class="billing-svc-row">' +
+        '<span class="billing-svc-name">' + s.name + '</span>' +
+        '<span class="billing-svc-cost" style="color:var(--red)">$' + s.cost.toFixed(0) + '</span></div>';
+    }).join('');
+    gh += '<div class="billing-card" style="border-color:rgba(248,113,113,0.3)">' +
+      '<div class="billing-card-header"><h3 style="color:var(--red)">Sin proyecto</h3>' +
+      '<div class="billing-card-total" style="color:var(--red)">$' + billing['_none'].total.toFixed(0) + '</div></div>' +
+      '<div class="billing-card-client"><span class="billing-badge-internal">REVISAR</span></div>' +
+      ns + '</div>';
+  }
+
+  document.getElementById('billingGrid').innerHTML = gh;
+}
+
+function editWeight(svcId, projId) {
+  var svc = SCAN_DATA.find(function(s) { return s.id === svcId; });
+  if (!svc) return;
+  var pr = svc.projects || [];
+  var w = getWeights(svcId, pr);
+
+  var lines = pr.map(function(pid) {
+    var p = PROJECTS.find(function(x) { return x.id === pid; });
+    return (p ? p.tag_label : pid) + ': ' + (w[pid] || 0) + '%';
+  }).join('\n');
+
+  var projLabels = pr.map(function(pid) {
+    var p = PROJECTS.find(function(x) { return x.id === pid; });
+    return p ? p.tag_label : pid;
+  }).join(', ');
+
+  var input = prompt(
+    'Asignaci\u00f3n de costo para "' + svc.name + '"\n' +
+    '(costo total: $' + getEffectiveCost(svc).toFixed(0) + '/mes)\n\n' +
+    lines + '\n\n' +
+    'Ingres\u00e1 los nuevos % separados por coma\n(' + projLabels + '):'
+  );
+  if (!input) return;
+
+  var vals = input.split(',').map(function(v) { return parseInt(v.trim()) || 0; });
+  if (vals.length !== pr.length) {
+    alert('Necesit\u00e1s ' + pr.length + ' valores, uno por proyecto (' + projLabels + ')');
+    return;
+  }
+
+  var newW = {};
+  pr.forEach(function(pid, i) { newW[pid] = vals[i]; });
+  saveFeedback(svcId, { weights: newW });
+  setTimeout(renderBilling, 300);
+}
+
+
+// ========== INIT ==========
+async function init() {
+  await loadFeedback();
+  renderSummary();
+  renderCostBar();
+  renderAlerts();
+  renderFilters();
+  renderTable();
+  if (typeof renderBilling === 'function') renderBilling();
+  applyFilters();
+}
+
+var _origSaveFn = saveFeedback;
+saveFeedback = async function(serviceId, data) {
+  await _origSaveFn(serviceId, data);
+  if (data.actual_cost !== undefined) {
+    if (typeof renderBilling === 'function') renderBilling();
+    renderCostBar();
+    renderSummary();
+  }
+};
 
 init();
 </script>

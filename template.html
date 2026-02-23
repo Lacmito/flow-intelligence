@@ -212,6 +212,7 @@ const SCAN_DATA = /*SCAN_DATA_JSON*/;
 const PROJECTS = /*PROJECTS_JSON*/;
 const DIFF = /*DIFF_JSON*/;
 const NEW_VARS = /*NEW_VARS_JSON*/;
+const DEFAULT_WEIGHTS = /*WEIGHTS_JSON*/;
 
 const API_BASE = window.location.origin;
 let feedback = { services: {} };
@@ -265,7 +266,6 @@ async function saveFeedback(serviceId, data) {
       if (!feedback.services) feedback.services = {};
       if (!feedback.services[serviceId]) feedback.services[serviceId] = {};
       Object.assign(feedback.services[serviceId], data);
-      localStorage.setItem('flow_feedback', JSON.stringify(feedback));
       showSaved();
       renderSummary();
       renderCostBar();
@@ -276,8 +276,6 @@ async function saveFeedback(serviceId, data) {
     Object.assign(feedback.services[serviceId], data);
     localStorage.setItem('flow_feedback', JSON.stringify(feedback));
     showSaved();
-    renderSummary();
-    renderCostBar();
   }
 }
 
@@ -628,6 +626,31 @@ function exportFeedback() {
   a.click();
   URL.revokeObjectURL(url);
 }
+
+// ========== BILLING MODULE (injected by scan.py) ==========
+/*BILLING_JS*/
+
+// ========== INIT ==========
+async function init() {
+  await loadFeedback();
+  renderSummary();
+  renderCostBar();
+  renderAlerts();
+  renderFilters();
+  renderTable();
+  if (typeof renderBilling === 'function') renderBilling();
+  applyFilters();
+}
+
+var _origSaveFn = saveFeedback;
+saveFeedback = async function(serviceId, data) {
+  await _origSaveFn(serviceId, data);
+  if (data.actual_cost !== undefined) {
+    if (typeof renderBilling === 'function') renderBilling();
+    renderCostBar();
+    renderSummary();
+  }
+};
 
 init();
 </script>

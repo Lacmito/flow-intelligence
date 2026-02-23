@@ -93,11 +93,7 @@ class DashboardHandler(SimpleHTTPRequestHandler):
         parsed = urlparse(self.path)
         path = parsed.path
 
-        if path == "/favicon.ico":
-            self.send_response(204)
-            self.end_headers()
-            return
-        elif path == "/" or path == "/index.html":
+        if path == "/" or path == "/index.html":
             self.serve_file(AUDIT_HTML, "text/html")
         elif path == "/api/feedback":
             self.send_json(load_json(FEEDBACK_PATH))
@@ -156,7 +152,7 @@ class DashboardHandler(SimpleHTTPRequestHandler):
         if svc_id not in feedback["services"]:
             feedback["services"][svc_id] = {}
 
-        for key in ("actual_cost", "status", "user_notes", "action_taken", "plan", "projects", "category"):
+        for key in ("actual_cost", "status", "user_notes", "action_taken", "plan", "projects", "category", "weights"):
             if key in data:
                 feedback["services"][svc_id][key] = data[key]
 
