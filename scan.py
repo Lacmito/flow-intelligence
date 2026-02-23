@@ -252,6 +252,14 @@ def generate_html(config: dict, scan_results: list[dict], matched: dict, diff: d
                for k, v in config.get("allocation_weights", {}).items() if not k.startswith("_")}
     html = html.replace("/*WEIGHTS_JSON*/", json.dumps(weights, ensure_ascii=False))
 
+    feedback_path = SCRIPT_DIR / "feedback.json"
+    if feedback_path.exists():
+        with open(feedback_path, "r", encoding="utf-8") as f:
+            fb_data = json.load(f)
+        html = html.replace("/*FEEDBACK_JSON*/", json.dumps(fb_data, ensure_ascii=False))
+    else:
+        html = html.replace("/*FEEDBACK_JSON*/", '{"services":{}}')
+
     billing_js_path = SCRIPT_DIR / "billing.js"
     if billing_js_path.exists():
         with open(billing_js_path, "r", encoding="utf-8") as f:

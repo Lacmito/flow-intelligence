@@ -234,6 +234,7 @@ const PROJECTS = /*PROJECTS_JSON*/;
 const DIFF = /*DIFF_JSON*/;
 const NEW_VARS = /*NEW_VARS_JSON*/;
 const DEFAULT_WEIGHTS = /*WEIGHTS_JSON*/;
+const EMBEDDED_FEEDBACK = /*FEEDBACK_JSON*/;
 
 const API_BASE = window.location.origin;
 let feedback = { services: {} };
@@ -270,9 +271,29 @@ async function init() {
 async function loadFeedback() {
   try {
     const res = await fetch(`${API_BASE}/api/feedback`);
-    if (res.ok) feedback = await res.json();
+    const ct = res.headers.get('content-type') || '';
+    if (res.ok && ct.includes('application/json')) {
+      feedback = await res.json();
+    } else {
+      throw new Error('No JSON API');
+    }
   } catch (e) {
-    feedback = JSON.parse(localStorage.getItem('flow_feedback') || '{"services":{}}');
+    var stored = localStorage.getItem('flow_feedback');
+    if (stored) {
+      try { feedback = JSON.parse(stored); } catch(e2) {}
+    }
+    if (typeof EMBEDDED_FEEDBACK !== 'undefined' && EMBEDDED_FEEDBACK.services) {
+      var emb = EMBEDDED_FEEDBACK;
+      if (!feedback.services) feedback.services = {};
+      for (var sid in emb.services) {
+        if (!feedback.services[sid]) feedback.services[sid] = {};
+        for (var k in emb.services[sid]) {
+          if (feedback.services[sid][k] === undefined) {
+            feedback.services[sid][k] = emb.services[sid][k];
+          }
+        }
+      }
+    }
   }
 }
 
@@ -283,7 +304,8 @@ async function saveFeedback(serviceId, data) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ service_id: serviceId, ...data }),
     });
-    if (res.ok) {
+    const sct = res.headers.get('content-type') || '';
+    if (res.ok && sct.includes('application/json')) {
       if (!feedback.services) feedback.services = {};
       if (!feedback.services[serviceId]) feedback.services[serviceId] = {};
       Object.assign(feedback.services[serviceId], data);
