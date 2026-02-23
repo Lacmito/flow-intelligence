@@ -648,15 +648,58 @@ async function rescan() {
 }
 
 async function saveSnapshot() {
-  try {
-    const res = await fetch(`${API_BASE}/api/snapshot`, { method: 'POST' });
-    const data = await res.json();
-    if (data.ok) {
-      showSaved();
-      alert(`Snapshot guardado: ${data.snapshot.date} — Total: $${data.snapshot.total}`);
+  var billing = typeof computeBilling === 'function' ? computeBilling() : {};
+  var byProject = {};
+  var byCategory = {};
+  var total = 0;
+  SCAN_DATA.forEach(function(svc) {
+    var cost = getEffectiveCost(svc);
+    total += cost;
+    byCategory[svc.category] = (byCategory[svc.category] || 0) + cost;
+  });
+  PROJECTS.forEach(function(p) {
+    if (billing[p.id]) {
+      byProject[p.id] = {
+        name: p.name, client: p.client, billable: p.billable,
+        total: Math.round(billing[p.id].total * 100) / 100,
+        services: billing[p.id].services.map(function(s) {
+          return { name: s.name, share: Math.round(s.share * 100) / 100, pct: s.pct };
+        })
+      };
     }
+  });
+  var now = new Date();
+  var snapshot = {
+    date: now.toISOString().slice(0, 7),
+    timestamp: now.toISOString(),
+    total: Math.round(total * 100) / 100,
+    by_project: byProject,
+    by_category: byCategory,
+    service_count: SCAN_DATA.length,
+    feedback_summary: Object.keys(feedback.services || {}).length + ' servicios con feedback'
+  };
+  try {
+    const res = await fetch(`${API_BASE}/api/snapshot`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(snapshot)
+    });
+    const ct = res.headers.get('content-type') || '';
+    if (res.ok && ct.includes('application/json')) {
+      const data = await res.json();
+      if (data.ok) {
+        showSaved();
+        alert('Snapshot ' + snapshot.date + ' guardado — Total: $' + snapshot.total + '/mes');
+        return;
+      }
+    }
+    throw new Error('No API');
   } catch (e) {
-    alert('Error: ' + e.message);
+    var history = JSON.parse(localStorage.getItem('flow_snapshots') || '[]');
+    history.push(snapshot);
+    localStorage.setItem('flow_snapshots', JSON.stringify(history));
+    showSaved();
+    alert('Snapshot ' + snapshot.date + ' guardado localmente — Total: $' + snapshot.total + '/mes\nBilling por proyecto incluido.');
   }
 }
 
@@ -688,11 +731,11 @@ async function init() {
 var _origSaveFn = saveFeedback;
 saveFeedback = async function(serviceId, data) {
   await _origSaveFn(serviceId, data);
-  if (data.actual_cost !== undefined) {
-    if (typeof renderBilling === 'function') renderBilling();
-    renderCostBar();
-    renderSummary();
-  }
+  renderSummary();
+  renderCostBar();
+  renderTable();
+  if (typeof renderBilling === 'function') renderBilling();
+  applyFilters();
 };
 
 init();

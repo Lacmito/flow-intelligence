@@ -131,6 +131,7 @@ def match_services(scan_results: list[dict], config: dict) -> dict:
     known_patterns = set(config["env_patterns"])
     found_services = {}
     new_env_vars = set()
+    new_var_projects = {}
     all_found_vars = set()
     for proj in scan_results:
         if not proj["exists"]:
@@ -144,11 +145,14 @@ def match_services(scan_results: list[dict], config: dict) -> dict:
                 found_services[svc_name]["projects"].append(proj["id"])
             elif var not in known_patterns:
                 new_env_vars.add(var)
+                if var not in new_var_projects:
+                    new_var_projects[var] = []
+                new_var_projects[var].append(proj["id"])
     missing_services = {}
     for var, svc in services_cfg.items():
         if svc["name"] not in found_services and var not in all_found_vars:
             missing_services[svc["name"]] = svc
-    return {"found": found_services, "new_vars": sorted(new_env_vars), "missing": missing_services}
+    return {"found": found_services, "new_vars": sorted(new_env_vars), "new_var_projects": new_var_projects, "missing": missing_services}
 
 
 def generate_diff(current_scan: dict) -> dict:
@@ -214,6 +218,17 @@ def build_service_rows(config, matched, projects_cfg):
             "notes": extra["notes"], "env_var": "", "projects": proj_ids,
             "search": extra.get("search_terms", extra["name"].lower()),
             "enstil": "enstil" in extra.get("search_terms", "").lower(),
+        })
+    for var_name in matched.get("new_vars", []):
+        proj_list = matched.get("new_var_projects", {}).get(var_name, [])
+        rows.append({
+            "id": f"new-{var_name.lower()}", "name": var_name,
+            "type": "Detectado", "category": "other",
+            "cost_model": "free", "cost_estimate": "$0",
+            "action": "review", "action_label": "NUEVO",
+            "notes": f"Variable nueva detectada. Revisar si es un servicio pago.",
+            "env_var": var_name, "projects": list(set(proj_list)),
+            "search": var_name.lower(), "is_new": True,
         })
     return rows
 
