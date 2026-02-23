@@ -254,7 +254,7 @@
       "cost_estimate": "Variable",
       "action": "review",
       "action_label": "Revisar billing",
-      "notes": "Verificar si todos los proyectos usan la misma key. Revisar consumo en platform.openai.com."
+      "notes": "Keys separadas por proyecto en platform.openai.com:\n• Dialer (sk-...3ToA) → DailyCareCaller (sin uso)\n• C2B engine (sk-...TIEA) → c2b (sin uso)\n• Metegol (sk-...4EMA) → Metegol (activa)\n• Taxes1 (sk-...gmcA) → CDR-Flow/Payroll (activa)\n• Test Cursor Key3 (sk-...S8kA) → General (activa)\nRevisar consumo real por key en Usage de OpenAI."
     },
     "GOOGLE_API_KEY": {
       "name": "Google Gemini",
