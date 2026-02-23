@@ -152,7 +152,7 @@ class DashboardHandler(SimpleHTTPRequestHandler):
         if svc_id not in feedback["services"]:
             feedback["services"][svc_id] = {}
 
-        for key in ("actual_cost", "status", "user_notes", "action_taken", "plan", "projects", "category", "weights"):
+        for key in ("actual_cost", "status", "user_notes", "action_taken", "plan", "projects", "category"):
             if key in data:
                 feedback["services"][svc_id][key] = data[key]
 
@@ -211,8 +211,12 @@ class DashboardHandler(SimpleHTTPRequestHandler):
         self.wfile.write(body)
 
     def log_message(self, fmt, *args):
-        if "/api/" in (args[0] if args else ""):
-            print(f"  API: {args[0]}")
+        try:
+            msg = str(args[0]) if args else ""
+            if "/api/" in msg:
+                print(f"  API: {msg}")
+        except Exception:
+            pass
 
 
 def main():
