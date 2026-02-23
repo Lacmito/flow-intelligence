@@ -298,7 +298,11 @@ def main():
     html = generate_html(config, scan_results, matched, diff)
     with open(OUTPUT_HTML, "w", encoding="utf-8") as f:
         f.write(html)
+    index_path = SCRIPT_DIR / "index.html"
+    with open(index_path, "w", encoding="utf-8") as f:
+        f.write(html)
     print(f"  -> {OUTPUT_HTML}")
+    print(f"  -> {index_path} (GitHub Pages)")
 
     save_scan_state(matched, scan_results)
 
