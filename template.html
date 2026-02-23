@@ -302,6 +302,10 @@ async function loadFeedback() {
 }
 
 async function saveFeedback(serviceId, data) {
+  if (!feedback.services) feedback.services = {};
+  if (!feedback.services[serviceId]) feedback.services[serviceId] = {};
+  Object.assign(feedback.services[serviceId], data);
+
   try {
     const res = await fetch(`${API_BASE}/api/feedback/service`, {
       method: 'POST',
@@ -309,21 +313,11 @@ async function saveFeedback(serviceId, data) {
       body: JSON.stringify({ service_id: serviceId, ...data }),
     });
     const sct = res.headers.get('content-type') || '';
-    if (res.ok && sct.includes('application/json')) {
-      if (!feedback.services) feedback.services = {};
-      if (!feedback.services[serviceId]) feedback.services[serviceId] = {};
-      Object.assign(feedback.services[serviceId], data);
-      showSaved();
-      renderSummary();
-      renderCostBar();
-    }
-  } catch (e) {
-    if (!feedback.services) feedback.services = {};
-    if (!feedback.services[serviceId]) feedback.services[serviceId] = {};
-    Object.assign(feedback.services[serviceId], data);
-    localStorage.setItem('flow_feedback', JSON.stringify(feedback));
-    showSaved();
-  }
+    if (!res.ok || !sct.includes('application/json')) throw new Error('no api');
+  } catch (e) {}
+
+  localStorage.setItem('flow_feedback', JSON.stringify(feedback));
+  showSaved();
 }
 
 function showSaved() {
