@@ -45,38 +45,39 @@ def save_json(path: Path, data):
         json.dump(data, f, indent=2, ensure_ascii=False)
 
 
-def record_monthly_snapshot():
-    """Save current cost totals to history for tracking over time."""
+def record_monthly_snapshot(client_snapshot=None):
+    """Save snapshot. Uses client-computed billing data if provided."""
     history = load_json(HISTORY_PATH, {"snapshots": []})
-    feedback = load_json(FEEDBACK_PATH)
-    services = feedback.get("services", {})
 
-    total = 0.0
-    by_project = {}
-    by_category = {}
-
-    for svc_id, svc_data in services.items():
-        cost = svc_data.get("actual_cost", 0)
-        if not isinstance(cost, (int, float)):
-            try:
-                cost = float(str(cost).replace("$", "").replace(",", "").strip() or "0")
-            except ValueError:
-                cost = 0
-        total += cost
-
-        for proj in svc_data.get("projects", []):
-            by_project[proj] = by_project.get(proj, 0) + cost
-        cat = svc_data.get("category", "other")
-        by_category[cat] = by_category.get(cat, 0) + cost
-
-    snapshot = {
-        "date": datetime.now().strftime("%Y-%m"),
-        "timestamp": datetime.now().isoformat(),
-        "total": round(total, 2),
-        "by_project": {k: round(v, 2) for k, v in by_project.items()},
-        "by_category": {k: round(v, 2) for k, v in by_category.items()},
-        "service_count": len(services),
-    }
+    if client_snapshot and isinstance(client_snapshot, dict) and "total" in client_snapshot:
+        snapshot = dict(client_snapshot)
+        if "date" not in snapshot:
+            snapshot["date"] = datetime.now().strftime("%Y-%m")
+        if "timestamp" not in snapshot:
+            snapshot["timestamp"] = datetime.now().isoformat()
+    else:
+        feedback = load_json(FEEDBACK_PATH)
+        services = feedback.get("services", {})
+        total = 0.0
+        by_category = {}
+        for svc_id, svc_data in services.items():
+            cost = svc_data.get("actual_cost", 0)
+            if not isinstance(cost, (int, float)):
+                try:
+                    cost = float(str(cost).replace("$", "").replace(",", "").strip() or "0")
+                except ValueError:
+                    cost = 0
+            total += cost
+            cat = svc_data.get("category", "other")
+            by_category[cat] = by_category.get(cat, 0) + cost
+        snapshot = {
+            "date": datetime.now().strftime("%Y-%m"),
+            "timestamp": datetime.now().isoformat(),
+            "total": round(total, 2),
+            "by_project": {},
+            "by_category": {k: round(v, 2) for k, v in by_category.items()},
+            "service_count": len(services),
+        }
 
     existing_months = {s["date"] for s in history["snapshots"]}
     if snapshot["date"] in existing_months:
@@ -121,7 +122,7 @@ class DashboardHandler(SimpleHTTPRequestHandler):
         elif path == "/api/feedback/service":
             self.update_service_feedback(data)
         elif path == "/api/snapshot":
-            snapshot = record_monthly_snapshot()
+            snapshot = record_monthly_snapshot(data if data else None)
             self.send_json({"ok": True, "snapshot": snapshot})
         else:
             self.send_error_json(404, "Not found")
@@ -211,12 +212,8 @@ class DashboardHandler(SimpleHTTPRequestHandler):
         self.wfile.write(body)
 
     def log_message(self, fmt, *args):
-        try:
-            msg = str(args[0]) if args else ""
-            if "/api/" in msg:
-                print(f"  API: {msg}")
-        except Exception:
-            pass
+        if "/api/" in (args[0] if args else ""):
+            print(f"  API: {args[0]}")
 
 
 def main():
