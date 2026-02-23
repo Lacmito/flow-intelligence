@@ -371,10 +371,10 @@
       "type": "Video hosting",
       "category": "cloud",
       "cost_model": "paid",
-      "cost_estimate": "$1/1K min",
-      "action": "review",
-      "action_label": "Revisar minutos",
-      "notes": "Sin free tier real."
+      "cost_estimate": "$100/mes (Creator Bundle + extra storage)",
+      "action": "downgrade",
+      "action_label": "BAJAR PLAN",
+      "notes": "Pagando $100/mes por 20K min pero solo usa 128 min. BAJAR a $5/mes (1K min). Ahorro: $95/mes."
     },
     "REDIS_URL": {
       "name": "Redis",
