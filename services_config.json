@@ -55,6 +55,46 @@
       "tag_class": "proj-cons",
       "tag_label": "Consol",
       "description": "Reportes consolidados y tipos de cambio"
+    },
+    {
+      "id": "mudanza-smart",
+      "name": "Mudanza Smart (MoveSmart.ly)",
+      "path": "~/mudanza-smart",
+      "tag_class": "proj-mud",
+      "tag_label": "MudanzaSmart",
+      "description": "App de mudanzas: Supabase + Stripe payments + Express API",
+      "client": "Mudanza Smart",
+      "billable": true
+    },
+    {
+      "id": "dailycarecaller",
+      "name": "DailyCareCaller (Dialler)",
+      "path": "~/DailyCareCaller",
+      "tag_class": "proj-dcc",
+      "tag_label": "DailyCare",
+      "description": "Auto-dialler: Twilio calls + OpenAI + Prisma DB + WebSocket",
+      "client": "DailyCareCaller",
+      "billable": true
+    },
+    {
+      "id": "customjoystudio",
+      "name": "CustomJoy Studio",
+      "path": "~/customjoystudio",
+      "tag_class": "proj-cjs",
+      "tag_label": "CustomJoy",
+      "description": "Studio Next.js: Fal.ai FLUX image gen + Google Gemini",
+      "client": "CustomJoy Studio",
+      "billable": true
+    },
+    {
+      "id": "verso-ai",
+      "name": "Verso AI",
+      "path": "~/verso-ai",
+      "tag_class": "proj-ver",
+      "tag_label": "Verso",
+      "description": "Proyecto AI (en desarrollo, solo venv creado)",
+      "client": "Verso AI",
+      "billable": true
     }
   ],
   "env_patterns": [
@@ -193,7 +233,17 @@
     "WEBAUTHN_RP_NAME",
     "WHATSAPP_AUTHORIZED_NUMBERS",
     "WHATSAPP_BUSINESS_ACCOUNT_ID",
-    "WHATSAPP_WEBHOOK_VERIFY_TOKEN"
+    "WHATSAPP_WEBHOOK_VERIFY_TOKEN",
+    "TWILIO_ACCOUNT_SID",
+    "TWILIO_AUTH_TOKEN",
+    "TWILIO_PHONE_NUMBER",
+    "NOTIFY_PHONE_NUMBER",
+    "NOTIFY_VIA",
+    "BASE_URL",
+    "NEXT_PUBLIC_SITE_URL",
+    "STRIPE_SECRET_KEY",
+    "STRIPE_PUBLISHABLE_KEY",
+    "STRIPE_WEBHOOK_SECRET"
   ],
   "services": {
     "OPENAI_API_KEY": {
@@ -465,6 +515,28 @@
       "action": "keep",
       "action_label": "OK",
       "notes": "Repos privados gratis."
+    },
+    "TWILIO_ACCOUNT_SID": {
+      "name": "Twilio",
+      "type": "Voice + SMS",
+      "category": "communication",
+      "cost_model": "usage",
+      "cost_estimate": "Pay-as-you-go",
+      "action": "review",
+      "action_label": "Revisar consumo",
+      "notes": "Llamadas automáticas DailyCareCaller. Verificar consumo mensual.",
+      "search_terms": "twilio voice sms calls dialler"
+    },
+    "STRIPE_SECRET_KEY": {
+      "name": "Stripe",
+      "type": "Payments",
+      "category": "other",
+      "cost_model": "usage",
+      "cost_estimate": "2.9% + $0.30/tx",
+      "action": "keep",
+      "action_label": "OK",
+      "notes": "Procesamiento de pagos Mudanza Smart. Comisión por transacción.",
+      "search_terms": "stripe payments cobros mudanza"
     }
   },
   "ghost_services": [
@@ -549,19 +621,21 @@
   ],
   "allocation_weights": {
     "OPENAI_API_KEY": {
-      "cdr-flow": 45,
-      "c2b": 15,
-      "natalia": 25,
+      "cdr-flow": 40,
+      "c2b": 12,
+      "natalia": 22,
+      "dailycarecaller": 10,
       "metegol": 5,
       "notif": 5,
       "payroll": 3,
-      "consolidado": 2
+      "consolidado": 3
     },
     "GOOGLE_API_KEY": {
-      "cdr-flow": 30,
+      "cdr-flow": 25,
       "c2b": 20,
       "natalia": 10,
-      "metegol": 20,
+      "metegol": 15,
+      "customjoystudio": 10,
       "notif": 5,
       "payroll": 5,
       "consolidado": 10
@@ -574,9 +648,10 @@
       "c2b": 5
     },
     "SUPABASE_URL": {
-      "cdr-flow": 70,
+      "cdr-flow": 60,
       "c2b": 20,
-      "natalia": 10
+      "natalia": 10,
+      "mudanza-smart": 10
     },
     "CF_R2_ACCESS_KEY_ID": {
       "cdr-flow": 80,
@@ -594,7 +669,8 @@
       "c2b": 20
     },
     "FAL_KEY": {
-      "metegol": 90,
+      "metegol": 70,
+      "customjoystudio": 20,
       "c2b": 10
     },
     "KLING_API_KEY": {
@@ -628,13 +704,17 @@
       "cdr-flow": 100
     },
     "extra-cursor-ide": {
-      "cdr-flow": 30,
-      "c2b": 20,
-      "natalia": 15,
-      "metegol": 15,
-      "notif": 8,
-      "payroll": 7,
-      "consolidado": 5
+      "cdr-flow": 25,
+      "c2b": 15,
+      "natalia": 12,
+      "metegol": 12,
+      "dailycarecaller": 10,
+      "mudanza-smart": 8,
+      "customjoystudio": 8,
+      "notif": 4,
+      "payroll": 3,
+      "consolidado": 2,
+      "verso-ai": 1
     },
     "extra-google-cloud-(gcp)": {
       "cdr-flow": 85,
@@ -646,6 +726,12 @@
     },
     "extra-media-shuttle-(signiant)": {
       "cdr-flow": 100
+    },
+    "TWILIO_ACCOUNT_SID": {
+      "dailycarecaller": 100
+    },
+    "STRIPE_SECRET_KEY": {
+      "mudanza-smart": 100
     }
   }
 }

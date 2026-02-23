@@ -2,7 +2,7 @@
 
 var PROJ_COLORS = {};
 PROJECTS.forEach(function(p) {
-  var cm = { 'proj-cdr':'#fb923c','proj-c2b':'#38bdf8','proj-nat':'#f472b6','proj-met':'#4ade80','proj-notif':'#a78bfa','proj-pay':'#fbbf24','proj-cons':'#22d3ee' };
+  var cm = { 'proj-cdr':'#fb923c','proj-c2b':'#38bdf8','proj-nat':'#f472b6','proj-met':'#4ade80','proj-notif':'#a78bfa','proj-pay':'#fbbf24','proj-cons':'#22d3ee','proj-mud':'#a78bfa','proj-dcc':'#ec4899','proj-cjs':'#f59e0b','proj-ver':'#10b981' };
   PROJ_COLORS[p.id] = cm[p.tag_class] || '#94a3b8';
 });
 
